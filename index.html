@@ -2,46 +2,68 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NECH — Abyss Lineage</title>
 <meta name="description" content="Abyss Lineage — a glowing deep-sea fish breeding game by NECH. เกมเพาะพันธุ์ปลาเรืองแสงใต้เหวทะเล">
-<meta name="theme-color" content="#030B12">
+<meta name="theme-color" content="#02090F">
 <link rel="icon" href="assets/icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="stylesheet" href="site.css">
 <style>
-  .land{min-height:calc(100vh - 120px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 16px 24px}
-  .land img{width:132px;height:132px;border-radius:30px;box-shadow:0 0 0 1px var(--line2),0 0 48px rgba(63,224,207,.30);margin-bottom:26px}
-  .land h1{margin:0 0 10px;font:700 clamp(34px,8vw,58px)/1.1 var(--head);letter-spacing:.05em;
-    background:linear-gradient(90deg,var(--bio),var(--bio2) 55%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;
-    filter:drop-shadow(0 0 18px rgba(63,224,207,.35))}
-  .land .by{font:700 12px/1.6 var(--head);letter-spacing:.42em;color:var(--ink3);margin:0 0 18px}
-  .land .lead p{margin:2px 0;font-size:18px}
-  .land .links{margin-top:34px;display:grid;gap:12px;width:min(420px,100%)}
-  .land .btn{display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left}
-  .land .btn small{display:block;font-weight:400;color:var(--ink3);font-size:13px}
-  .land .btn:hover small{color:inherit}
+  /* หน้าแรก — โลโก้หน้าปกจริงของเกม (ภาพจากแอป) · ตู้ปลาเรืองแสง · ปุ่มเอกสารแบบปุ่มในเกม */
+  .land{max-width:1180px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) var(--gutter) 10px}
+  .title-art{position:relative;border-radius:26px;overflow:hidden;border:1px solid var(--rim);
+    box-shadow:0 0 0 1px rgba(63,224,207,.08) inset, 0 0 60px rgba(63,224,207,.18), 0 30px 80px rgba(0,0,0,.45)}
+  .title-art img{width:100%;height:auto;aspect-ratio:1600/667;object-fit:cover}
+  .tag{text-align:center;padding:18px 8px 4px}
+  .tag p{margin:0;color:#E9FDFF;font-size:clamp(17px,2.6vw,22px);line-height:1.5;text-shadow:0 0 14px rgba(63,224,207,.35)}
+  .tag p + p{color:var(--ink2);font-size:clamp(14px,2vw,17px);font-family:var(--head);letter-spacing:.02em}
+  .row{display:grid;grid-template-columns:1fr;gap:18px;margin-top:22px}
+  @media (min-width:860px){.row{grid-template-columns:minmax(0,1fr) 380px;align-items:start}}
+  .shot{position:relative;margin:0;border-radius:22px;overflow:hidden;border:1px solid var(--rim)}
+  .shot img{width:100%;height:auto;aspect-ratio:1600/733;object-fit:cover}
+  .shot figcaption{position:absolute;left:14px;bottom:12px;font:700 12px/1.4 var(--head);letter-spacing:.2em;color:var(--bio);
+    text-shadow:0 0 10px rgba(63,224,207,.8);background:rgba(2,9,15,.55);padding:6px 10px;border-radius:10px}
+  .docs-card{padding:20px;border-radius:22px;background:var(--panel);border:1px solid var(--rim);box-shadow:var(--glow)}
+  .docs-card h2{margin:0 0 14px;font:700 13px/1.4 var(--head);letter-spacing:.22em;text-transform:uppercase;color:var(--bio);text-shadow:0 0 10px rgba(63,224,207,.6)}
+  .docs-card .btn{width:100%;margin:0 0 10px}
+  .docs-card .btn:last-child{margin:0}
+  .docs-card .btn small{display:block;font-weight:400;color:var(--ink3);font-size:13px}
+  .docs-card .btn:hover small{color:inherit}
 </style>
 </head>
 <body>
 <div class="sea" aria-hidden="true"></div>
 <main class="land">
-  <img src="assets/icon-192.png" alt="Abyss Lineage" width="132" height="132">
-  <h1>Abyss Lineage</h1>
-  <p class="by">BY NECH</p>
-  <div class="lead">
-    <p lang="th">เกมเพาะพันธุ์ปลาเรืองแสงใต้เหวทะเล</p>
-    <p lang="en">A glowing deep-sea fish breeding game</p>
+  <div class="title-art">
+    <picture>
+      <source media="(max-width:860px)" srcset="assets/title-800.jpg">
+      <img src="assets/title-1600.jpg" alt="Abyss Lineage" width="1600" height="667">
+    </picture>
   </div>
-  <nav class="links" aria-label="เอกสาร / Documents">
-    <a class="btn" href="privacy.html"><span>นโยบายความเป็นส่วนตัว<small>Privacy Policy</small></span><span aria-hidden="true">›</span></a>
-    <a class="btn" href="terms.html"><span>ข้อตกลงการใช้งาน<small>Terms of Use</small></span><span aria-hidden="true">›</span></a>
-    <a class="btn" href="delete-account.html"><span>ขอลบบัญชี<small>Delete your account</small></span><span aria-hidden="true">›</span></a>
-  </nav>
+  <div class="tag">
+    <p lang="th">เกมเพาะพันธุ์ปลาเรืองแสงใต้เหวทะเล</p>
+    <p lang="en">A glowing deep-sea fish breeding game by NECH</p>
+  </div>
+  <div class="row">
+    <figure class="shot">
+      <picture>
+        <source media="(max-width:860px)" srcset="assets/tank-800.jpg">
+        <img src="assets/tank-1600.jpg" alt="ตู้ปลาเรืองแสงในเกม / Glowing fish in the game's tank" width="1600" height="733" loading="lazy">
+      </picture>
+      <figcaption>IN-GAME · <span class="th">ภาพจากในเกม</span></figcaption>
+    </figure>
+    <nav class="docs-card" aria-label="เอกสาร / Documents">
+      <h2><span class="th">เอกสาร</span> · DOCUMENTS</h2>
+      <a class="btn" href="privacy.html"><span>นโยบายความเป็นส่วนตัว<small>Privacy Policy</small></span><span aria-hidden="true">›</span></a>
+      <a class="btn" href="terms.html"><span>ข้อตกลงการใช้งาน<small>Terms of Use</small></span><span aria-hidden="true">›</span></a>
+      <a class="btn" href="delete-account.html"><span>ขอลบบัญชี<small>Delete your account</small></span><span aria-hidden="true">›</span></a>
+    </nav>
+  </div>
 </main>
 <footer class="site">
   <nav aria-label="ติดต่อ / Contact"><a href="mailto:nech.studios@gmail.com">ติดต่อ / Contact: nech.studios@gmail.com</a></nav>
-  <span class="made">NECH · ABYSS LINEAGE</span>
+  <span class="nech"><img src="assets/nech-sign.jpg" alt="NECH" width="150" height="46" loading="lazy">© NECH</span>
 </footer>
 </body>
 </html>
