@@ -1,46 +1,187 @@
-/* เว็บไซต์ผู้พัฒนา NECH — Abyss Lineage · หน้าตาเดียวกับเกม (พื้นมืดของเหว · ฟ้าอมเขียวเรือง)
-   ต้นฉบับอยู่ที่ docs/site/ ใน repo เกม · เผยแพร่ด้วย tools/publish_site.sh */
+/* เว็บไซต์ผู้พัฒนา NECH — Abyss Lineage · หน้าตาเดียวกับเกม (neon fish: พื้นมืดของเหว · ฟ้าอมเขียวเรือง · ม่วง · ทองอำพัน)
+   ต้นฉบับอยู่ที่ docs/site/ ใน repo เกม · เผยแพร่ด้วย tools/publish_site.sh
+   ฟอนต์เดียวกับในเกม (Sarabun · Comfortaa — SIL OFL ไฟล์อยู่ใน fonts/) **โหลดจากเว็บนี้เอง ไม่เรียก Google Fonts**
+   หน้านโยบายความเป็นส่วนตัวจึงไม่ส่งคำขอของผู้อ่านไปที่ใครอื่น
+   โครงของหน้าเอกสาร: header.top · main.doc > section#th / section#en (> .hero · nav.toc · .note · section.card) · footer.site */
+
+@font-face{font-family:"Sarabun";src:url("fonts/sarabun.ttf") format("truetype");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Comfortaa";src:url("fonts/comfortaa.ttf") format("truetype");font-weight:300 700;font-display:swap}
+
 :root{
   color-scheme: dark light;
-  --bg:#06121A; --surf:#0C2431; --line:#1E4152;
-  --ink:#DDEFF2; --ink2:#A9C6CD; --ink3:#7FA2AA;
-  --bio:#3FE0CF; --amber:#F2B15C; --coral:#FF7A8A;
+  --bg:#030B12; --bg2:#06141E; --surf:rgba(12,36,49,.62); --surf2:rgba(16,46,62,.78); --line:rgba(80,170,190,.22); --line2:rgba(80,170,190,.38);
+  --ink:#E2F3F5; --ink2:#AFCBD1; --ink3:#7E9FA8;
+  --bio:#3FE0CF; --bio2:#53B8FF; --violet:#B69CFF; --amber:#F2B15C; --coral:#FF7A8A;
+  --glow:0 0 0 1px rgba(63,224,207,.18), 0 0 24px rgba(63,224,207,.10);
+  --radius:18px;
+  --head:"Comfortaa","Sarabun",system-ui,sans-serif;
+  --body:"Sarabun",system-ui,-apple-system,"Noto Sans Thai",sans-serif;
 }
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]){
-    --bg:#F4FAFB; --surf:#FFFFFF; --line:#C9DFE3;
-    --ink:#0B2530; --ink2:#2E4E58; --ink3:#577078;
-    --bio:#007C72; --amber:#9A5B00; --coral:#B3263A;
+    --bg:#EEF7F8; --bg2:#E3F1F3; --surf:rgba(255,255,255,.82); --surf2:#FFFFFF; --line:rgba(0,100,110,.16); --line2:rgba(0,100,110,.30);
+    --ink:#0A2430; --ink2:#2C4C57; --ink3:#56707A;
+    --bio:#007C72; --bio2:#0064A8; --violet:#5B3FC4; --amber:#8F5300; --coral:#B3263A;
+    --glow:0 1px 2px rgba(0,60,70,.08), 0 6px 22px rgba(0,60,70,.07);
   }
 }
+
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,"Sarabun","Noto Sans Thai",sans-serif;
-  -webkit-text-size-adjust:100%}
-main{max-width:780px;margin:0 auto;padding:28px 16px 72px}
-header.top{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:8px}
-header.top .brand{font-weight:600;letter-spacing:.04em;color:var(--ink);text-decoration:none}
-nav.lang a{display:inline-block;padding:4px 12px;border:1px solid var(--line);border-radius:999px;margin-left:6px;
-  text-decoration:none;color:var(--bio)}
-h1{font-size:clamp(24px,5vw,30px);line-height:1.3;margin:28px 0 4px;text-wrap:balance}
-h2{font-size:19px;margin:30px 0 8px;color:var(--bio)}
-h3{font-size:16px;margin:18px 0 4px}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:17px/1.8 var(--body);-webkit-text-size-adjust:100%;overflow-x:hidden}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+
+/* ── ทะเลข้างหลัง: ลำแสงจากผิวน้ำ · แสงม่วงจากก้นเหว · ฝุ่นเรืองลอยขึ้นช้า ๆ (ไม่มีภาพ — ไล่สีล้วน) ── */
+.sea{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+  background:
+    radial-gradient(1200px 520px at 50% -160px, rgba(63,224,207,.16), transparent 70%),
+    radial-gradient(900px 600px at 85% 115%, rgba(182,156,255,.12), transparent 70%),
+    radial-gradient(700px 500px at 0% 90%, rgba(83,184,255,.08), transparent 70%),
+    linear-gradient(180deg, var(--bg2), var(--bg) 55%)}
+.sea::before{content:"";position:absolute;inset:-20% -10% 30%;opacity:.55;
+  background:repeating-linear-gradient(100deg, transparent 0 70px, rgba(63,224,207,.035) 70px 120px, transparent 120px 230px);
+  mask-image:linear-gradient(180deg,#000 0%,transparent 85%);-webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 85%);
+  animation:sway 18s ease-in-out infinite alternate}
+.sea::after{content:"";position:absolute;left:0;top:0;width:3px;height:3px;border-radius:50%;background:transparent;
+  box-shadow:
+    8vw 92vh 0 0 rgba(63,224,207,.55), 17vw 70vh 0 1px rgba(83,184,255,.35), 26vw 98vh 0 0 rgba(63,224,207,.45),
+    38vw 80vh 0 0 rgba(182,156,255,.45), 47vw 95vh 0 1px rgba(63,224,207,.30), 59vw 74vh 0 0 rgba(63,224,207,.55),
+    66vw 99vh 0 0 rgba(83,184,255,.40), 74vw 86vh 0 1px rgba(182,156,255,.35), 83vw 93vh 0 0 rgba(63,224,207,.45),
+    91vw 78vh 0 0 rgba(63,224,207,.40), 12vw 120vh 0 0 rgba(63,224,207,.35), 52vw 125vh 0 0 rgba(182,156,255,.30),
+    78vw 118vh 0 0 rgba(83,184,255,.35), 33vw 130vh 0 1px rgba(63,224,207,.25);
+  animation:rise 38s linear infinite}
+@keyframes sway{from{transform:translateX(-2%) skewX(-2deg)}to{transform:translateX(2%) skewX(2deg)}}
+@keyframes rise{from{transform:translateY(0)}to{transform:translateY(-140vh)}}
+@media (prefers-reduced-motion: reduce){.sea::before,.sea::after{animation:none}}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .sea::after{display:none}}
+
+/* ── แถบหัว ── */
+.skip{position:absolute;left:-999px;top:8px;background:var(--surf2);color:var(--ink);padding:8px 14px;border-radius:10px;z-index:20}
+.skip:focus{left:12px}
+header.top{position:sticky;top:0;z-index:10;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;
+  padding:12px max(16px, calc((100vw - 1180px)/2));
+  background:color-mix(in srgb, var(--bg) 72%, transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);margin-right:auto;min-width:0}
+.brand img{width:44px;height:44px;border-radius:12px;box-shadow:0 0 0 1px var(--line2), 0 0 18px rgba(63,224,207,.25);flex:none}
+.brand b{display:block;font:700 19px/1.15 var(--head);letter-spacing:.04em;
+  background:linear-gradient(90deg,var(--bio),var(--bio2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand small{display:block;font:600 11px/1.4 var(--head);letter-spacing:.32em;color:var(--ink3)}
+nav.docs{display:flex;flex-wrap:wrap;gap:6px}
+nav.docs a{font-size:14px;line-height:1.3;padding:7px 13px;border-radius:999px;text-decoration:none;color:var(--ink2);border:1px solid transparent}
+nav.docs a:hover{color:var(--ink);border-color:var(--line)}
+nav.docs a[aria-current="page"]{color:var(--bio);border-color:var(--line2);background:var(--surf);box-shadow:var(--glow)}
+nav.lang{display:inline-flex;padding:3px;border-radius:999px;border:1px solid var(--line2);background:var(--surf)}
+nav.lang a{font-size:14px;line-height:1.3;padding:6px 14px;border-radius:999px;text-decoration:none;color:var(--ink2)}
+nav.lang a[aria-pressed="true"]{color:var(--bg);background:var(--bio);box-shadow:0 0 14px rgba(63,224,207,.35);font-weight:600}
+@media (max-width:760px){
+  header.top{gap:8px 10px}
+  nav.docs{order:3;width:100%;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  nav.docs a{white-space:nowrap}
+}
+
+/* ── หน้าเอกสาร ── */
+main.doc{max-width:1180px;margin:0 auto;padding:8px 16px 40px}
+main.doc > section[lang]{display:grid;grid-template-columns:minmax(0,1fr);gap:0 36px}
+main.doc > section[lang] + section[lang]{margin-top:56px;padding-top:40px;border-top:1px dashed var(--line2)}
+.js main.doc > section[lang] + section[lang]{margin-top:0;padding-top:0;border-top:0}
+[hidden]{display:none !important}
+
+.hero{padding:34px 0 18px}
+.kicker{margin:0 0 8px;font:700 13px/1.4 var(--head);letter-spacing:.22em;text-transform:uppercase;color:var(--bio)}
+.hero h1{margin:0;font-size:clamp(28px,5.2vw,44px);line-height:1.22;letter-spacing:.005em;text-wrap:balance;font-weight:700;
+  text-shadow:0 0 28px rgba(63,224,207,.18)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:16px 0 0;padding:0}
+.chips li{margin:0;font-size:14px;line-height:1.4;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surf);color:var(--ink2)}
+.chips li:first-child{color:var(--amber);border-color:color-mix(in srgb, var(--amber) 40%, transparent)}
+.chips a{color:var(--bio)}
+
+/* สารบัญ — มือถือพับเป็นกล่อง · จอกว้างติดข้างซ้าย */
+nav.toc{margin:6px 0 18px}
+nav.toc details{border:1px solid var(--line);border-radius:14px;background:var(--surf)}
+nav.toc summary{cursor:pointer;list-style:none;padding:11px 16px;font-weight:600;color:var(--ink);display:flex;justify-content:space-between;align-items:center}
+nav.toc summary::-webkit-details-marker{display:none}
+nav.toc summary::after{content:"";width:9px;height:9px;border-right:2px solid var(--bio);border-bottom:2px solid var(--bio);transform:rotate(45deg) translateY(-3px);transition:transform .2s}
+nav.toc details[open] summary::after{transform:rotate(225deg) translateY(-2px)}
+nav.toc ol{list-style:none;margin:0;padding:4px 8px 10px}
+nav.toc li{margin:0}
+nav.toc a{display:flex;gap:10px;align-items:baseline;padding:6px 10px;border-radius:10px;text-decoration:none;color:var(--ink2);font-size:15px;line-height:1.45}
+nav.toc a:hover{background:var(--surf2);color:var(--ink)}
+nav.toc a .n{font:700 12px/1 var(--head);color:var(--bio);min-width:18px}
+nav.toc a.on{color:var(--ink);background:var(--surf2);box-shadow:inset 2px 0 0 var(--bio)}
+@media (min-width:1040px){
+  main.doc > section[lang]{grid-template-columns:250px minmax(0,1fr)}
+  main.doc > section[lang] > .hero{grid-column:1 / -1}
+  main.doc > section[lang] > nav.toc{grid-column:1;grid-row:2 / span 40;align-self:start;position:sticky;top:96px;margin:0}
+  main.doc > section[lang] > :not(.hero):not(nav.toc){grid-column:2}
+  nav.toc details{background:transparent;border-color:transparent}
+  nav.toc summary{padding:4px 10px 8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);pointer-events:none}
+  nav.toc summary::after{display:none}
+}
+
+/* สรุปสั้น ๆ */
+.note{position:relative;margin:4px 0 22px;padding:18px 20px 18px 24px;border-radius:var(--radius);
+  background:linear-gradient(135deg, color-mix(in srgb, var(--bio) 12%, transparent), var(--surf) 60%);
+  border:1px solid var(--line2);box-shadow:var(--glow);overflow:hidden}
+.note::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:linear-gradient(var(--bio),var(--bio2));box-shadow:0 0 12px var(--bio)}
+.note p{margin:4px 0;color:var(--ink)}
+
+/* หัวข้อเป็นการ์ดแก้ว · เลขหัวข้อเป็นหลอดไฟวงกลม */
+section.card{margin:0 0 16px;padding:22px 24px 18px;border-radius:var(--radius);background:var(--surf);border:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(255,255,255,.03) inset;transition:border-color .25s, box-shadow .25s}
+section.card:target,section.card:hover{border-color:var(--line2);box-shadow:var(--glow)}
+section.card > h2{display:flex;align-items:center;gap:14px;margin:0 0 10px;font-size:clamp(19px,2.6vw,22px);line-height:1.35;color:var(--ink);font-weight:700}
+h2 .num{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;
+  font:700 15px/1 var(--head);color:var(--bio);border:2px solid var(--bio);
+  box-shadow:0 0 10px rgba(63,224,207,.45), inset 0 0 8px rgba(63,224,207,.25);text-shadow:0 0 8px rgba(63,224,207,.8)}
+h3{font-size:17px;margin:18px 0 6px;color:var(--bio2)}
 p,li{color:var(--ink2)}
-ul{padding-left:22px}
-li{margin:4px 0}
-b,strong{color:var(--ink)}
-a{color:var(--bio)}
-a:focus-visible{outline:2px solid var(--bio);outline-offset:2px;border-radius:4px}
+section.card p{margin:8px 0}
+ul{padding-left:0;list-style:none}
+section.card li{position:relative;margin:7px 0;padding-left:22px}
+section.card li::before{content:"";position:absolute;left:4px;top:.72em;width:7px;height:7px;border-radius:50%;background:var(--bio);box-shadow:0 0 8px var(--bio)}
+b,strong{color:var(--ink);font-weight:600}
+a{color:var(--bio);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--ink)}
+:focus-visible{outline:2px solid var(--bio);outline-offset:3px;border-radius:6px}
 .meta{font-size:14px;color:var(--ink3);margin:0 0 6px}
-.note{border:1px solid var(--line);background:var(--surf);border-radius:12px;padding:12px 16px;margin:16px 0}
-.note p{margin:4px 0}
-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:15px;display:block;overflow-x:auto}
-th,td{border-bottom:1px solid var(--line);text-align:left;vertical-align:top;padding:8px 10px;color:var(--ink2)}
-th{color:var(--ink);font-weight:600;white-space:nowrap}
-hr{border:0;border-top:1px solid var(--line);margin:48px 0}
-section{scroll-margin-top:16px}
-footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--ink3)}
+
+/* ตาราง — จอแคบกลายเป็นกล่องทีละแถว (ป้ายหัวคอลัมน์มาจาก data-label) */
+.tbl{margin:12px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.6}
+th,td{text-align:left;vertical-align:top;padding:11px 14px;color:var(--ink2);border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{color:var(--ink);font-weight:600;background:color-mix(in srgb, var(--bio) 9%, transparent);white-space:nowrap}
+td:first-child{color:var(--ink)}
+@media (max-width:640px){
+  .tbl{border:0;border-radius:0;overflow:visible}
+  table,tbody,tr,td{display:block;width:100%}
+  thead{display:none}
+  tr{margin:0 0 10px;border:1px solid var(--line);border-radius:14px;background:var(--surf2);padding:6px 0}
+  td{border:0;padding:6px 14px}
+  td[data-label]::before{content:attr(data-label);display:block;font-size:12px;letter-spacing:.06em;color:var(--ink3)}
+}
+
+.btn{display:inline-block;padding:11px 20px;border:1px solid var(--bio);border-radius:14px;text-decoration:none;color:var(--bio);font-weight:600;
+  background:var(--surf);box-shadow:var(--glow);transition:background .2s,color .2s}
+.btn:hover{background:var(--bio);color:var(--bg)}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:var(--surf2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;word-break:break-all}
+hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+
+/* ── ท้ายหน้า ── */
+footer.site{max-width:1180px;margin:24px auto 0;padding:26px 16px 40px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between;font-size:14px;color:var(--ink3)}
+footer.site nav{display:flex;flex-wrap:wrap;gap:6px 18px}
+footer.site a{color:var(--ink2);text-decoration:none}
+footer.site a:hover{color:var(--bio)}
+footer.site .made{font:600 12px/1.6 var(--head);letter-spacing:.18em}
+
+/* หน้าที่ยังใช้โครงเดิม (main > footer) */
+main > footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--ink3)}
 .links a{display:inline-block;margin:4px 10px 4px 0}
-.btn{display:inline-block;padding:10px 18px;border:1px solid var(--bio);border-radius:12px;text-decoration:none;color:var(--bio);font-weight:600}
-code{font-family:ui-monospace,Menlo,monospace;font-size:.9em;background:var(--surf);border:1px solid var(--line);border-radius:6px;padding:0 5px;word-break:break-all}
+
+@media print{
+  .sea,header.top nav,nav.toc,footer.site nav{display:none !important}
+  body{background:#fff;color:#000} section.card{border:0;box-shadow:none;padding:0;background:none}
+  [hidden]{display:block !important}
+}

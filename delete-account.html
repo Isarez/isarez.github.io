@@ -5,28 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Abyss Lineage — ขอลบบัญชี / Delete your account</title>
 <meta name="description" content="How to delete your Abyss Lineage account and data (developer: NECH). วิธีลบบัญชีและข้อมูลของเกม Abyss Lineage โดย NECH">
+<meta name="theme-color" content="#030B12">
+<link rel="icon" href="assets/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="stylesheet" href="site.css">
 </head>
-<body><main>
+<body>
+<a class="skip" href="#doc">ข้ามไปเนื้อหา / Skip to content</a>
+<div class="sea" aria-hidden="true"></div>
 <header class="top">
-  <a class="brand" href="./">Abyss Lineage · NECH</a>
-  <nav class="lang" aria-label="ภาษา / Language"><a href="#th" lang="th">ไทย</a><a href="#en" lang="en">English</a></nav>
+  <a class="brand" href="./"><img src="assets/icon-192.png" alt="" width="44" height="44"><span><b>Abyss Lineage</b><small>NECH</small></span></a>
+  <nav class="docs" aria-label="เอกสาร / Documents"><a href="privacy.html">นโยบาย · Privacy</a><a href="terms.html">ข้อตกลง · Terms</a><a href="delete-account.html" aria-current="page">ลบบัญชี · Delete</a></nav>
+  <nav class="lang" aria-label="ภาษา / Language"><a href="#th" lang="th" data-lang="th" aria-pressed="false">ไทย</a><a href="#en" lang="en" data-lang="en" aria-pressed="false">English</a></nav>
 </header>
-
+<main class="doc" id="doc">
 <!-- ต้นฉบับ: docs/site/delete-account.html ใน repo เกม · ลิงก์นี้ใส่ในแบบฟอร์ม Data safety ช่อง "Delete account URL"
      เจ้าของโปรเจกต์ลบตามคำขอด้วย tools/online/delete_player.py ภายใน 30 วัน -->
 
 <section id="th" lang="th">
+<div class="hero">
+<p class="kicker">Abyss Lineage · ACCOUNT DELETION</p>
 <h1>ขอลบบัญชี — Abyss Lineage</h1>
-<p class="meta">แอป: <b>Abyss Lineage</b> · ผู้พัฒนา: <b>NECH</b> · ติดต่อ: <a href="mailto:nech.studios@gmail.com">nech.studios@gmail.com</a></p>
-
+<ul class="chips"><li>แอป: <b>Abyss Lineage</b></li><li>ผู้พัฒนา: <b>NECH</b></li><li>ติดต่อ: <a href="mailto:nech.studios@gmail.com">nech.studios@gmail.com</a></li></ul>
+</div>
+<nav class="toc" aria-label="สารบัญ"><details><summary>สารบัญ</summary><ol><li><a href="#th-1"><span class="n">1</span><span>ลบในเกม (เร็วที่สุด)</span></a></li><li><a href="#th-2"><span class="n">2</span><span>ขอลบทางอีเมล (สำหรับคนที่ลบแอปไปแล้ว)</span></a></li><li><a href="#th-3"><span class="n">3</span><span>สิ่งที่ถูกลบ</span></a></li><li><a href="#th-4"><span class="n">4</span><span>สิ่งที่เก็บต่อ และนานเท่าไร</span></a></li></ol></details></nav>
 <div class="note">
   <p>หน้านี้สำหรับผู้เล่นที่ <b>เปิดระบบออนไลน์</b> (มีบัญชี) · ถ้าเล่นแบบผู้เยี่ยมชม เราไม่มีข้อมูลของคุณ — ลบแอปแล้วเซฟในเครื่องหายทั้งหมด</p>
 </div>
-
+<section class="card" id="th-1">
 <h2>ลบในเกม (เร็วที่สุด)</h2>
 <p>หน้าตั้งค่า (เฟืองมุมขวาบน) → <b>บัญชีและความเป็นส่วนตัว</b> → <b>ลบบัญชี</b> → กดค้างสามวินาที · ต้องต่ออินเทอร์เน็ต · ลบเสร็จทันที</p>
-
+</section>
+<section class="card" id="th-2">
 <h2>ขอลบทางอีเมล (สำหรับคนที่ลบแอปไปแล้ว)</h2>
 <p>ส่งอีเมลถึง <a href="mailto:nech.studios@gmail.com?subject=Abyss%20Lineage%20-%20Delete%20my%20account">nech.studios@gmail.com</a> หัวเรื่อง "Abyss Lineage - Delete my account" พร้อมข้อมูลอย่างใดอย่างหนึ่ง:</p>
 <ul>
@@ -34,7 +44,8 @@
   <li><b>ชื่อ Google Play Games</b> ที่ใช้ในเกม และ<b>อีเมลบัญชี Google</b> ที่ใช้เล่น</li>
 </ul>
 <p>เราจะตอบกลับเพื่อยืนยัน และลบให้เสร็จ <b>ภายใน 30 วัน</b></p>
-
+</section>
+<section class="card" id="th-3">
 <h2>สิ่งที่ถูกลบ</h2>
 <ul>
   <li>เซฟเกมบนคลาวด์</li>
@@ -43,7 +54,8 @@
   <li>ปลาที่ลงตลาดหรือตั้งให้ยืม</li>
   <li>บัญชีผู้เล่น (รหัสผู้เล่นของ Unity ที่ผูกกับ Google Play Games)</li>
 </ul>
-
+</section>
+<section class="card" id="th-4">
 <h2>สิ่งที่เก็บต่อ และนานเท่าไร</h2>
 <ul>
   <li>บันทึกตรวจการโกง: ไม่เกิน 90 วันนับจากวันที่บันทึก แล้วลบ</li>
@@ -53,20 +65,23 @@
 </ul>
 <p>อ่านเพิ่มเติม: <a href="privacy.html#th">นโยบายความเป็นส่วนตัว</a></p>
 </section>
-
-<hr>
+</section>
 
 <section id="en" lang="en">
+<div class="hero">
+<p class="kicker">Abyss Lineage · ACCOUNT DELETION</p>
 <h1>Delete your account — Abyss Lineage</h1>
-<p class="meta">App: <b>Abyss Lineage</b> · Developer: <b>NECH</b> · Contact: <a href="mailto:nech.studios@gmail.com">nech.studios@gmail.com</a></p>
-
+<ul class="chips"><li>App: <b>Abyss Lineage</b></li><li>Developer: <b>NECH</b></li><li>Contact: <a href="mailto:nech.studios@gmail.com">nech.studios@gmail.com</a></li></ul>
+</div>
+<nav class="toc" aria-label="Contents"><details><summary>Contents</summary><ol><li><a href="#en-1"><span class="n">1</span><span>Delete in the game (fastest)</span></a></li><li><a href="#en-2"><span class="n">2</span><span>Request by email (if you no longer have the app)</span></a></li><li><a href="#en-3"><span class="n">3</span><span>What is deleted</span></a></li><li><a href="#en-4"><span class="n">4</span><span>What is kept, and for how long</span></a></li></ol></details></nav>
 <div class="note">
   <p>This page is for players who <b>turned on online features</b> (have an account). If you play as a guest we hold no data about you — uninstalling the app removes your save.</p>
 </div>
-
+<section class="card" id="en-1">
 <h2>Delete in the game (fastest)</h2>
 <p>Settings (gear, top right) → <b>Account &amp; privacy</b> → <b>Delete account</b> → hold for three seconds. You need an internet connection. Deletion is immediate.</p>
-
+</section>
+<section class="card" id="en-2">
 <h2>Request by email (if you no longer have the app)</h2>
 <p>Email <a href="mailto:nech.studios@gmail.com?subject=Abyss%20Lineage%20-%20Delete%20my%20account">nech.studios@gmail.com</a> with the subject "Abyss Lineage - Delete my account" and one of:</p>
 <ul>
@@ -74,7 +89,8 @@
   <li>your <b>Google Play Games name</b> used in the game and the <b>Google account email</b> you play with.</li>
 </ul>
 <p>We will reply to confirm and complete the deletion <b>within 30 days</b>.</p>
-
+</section>
+<section class="card" id="en-3">
 <h2>What is deleted</h2>
 <ul>
   <li>Your cloud save</li>
@@ -83,7 +99,8 @@
   <li>Fish you listed on the market or set to lend</li>
   <li>Your player account (the Unity player ID linked to Google Play Games)</li>
 </ul>
-
+</section>
+<section class="card" id="en-4">
 <h2>What is kept, and for how long</h2>
 <ul>
   <li>Cheat-detection logs: no longer than 90 days from when they were recorded, then deleted.</li>
@@ -93,9 +110,12 @@
 </ul>
 <p>More: <a href="privacy.html#en">Privacy Policy</a></p>
 </section>
-
-<footer>
-  <p class="links"><a href="./">Abyss Lineage</a> · <a href="privacy.html">นโยบายความเป็นส่วนตัว / Privacy Policy</a> · <a href="terms.html">ข้อตกลงการใช้งาน / Terms of Use</a></p>
+</section>
+</main>
+<footer class="site">
+  <nav aria-label="ลิงก์ / Links"><a href="./">Abyss Lineage</a><a href="privacy.html">นโยบาย · Privacy</a><a href="terms.html">ข้อตกลง · Terms</a><a href="delete-account.html">ลบบัญชี · Delete</a><a href="mailto:nech.studios@gmail.com">nech.studios@gmail.com</a></nav>
+  <span class="made">NECH · ABYSS LINEAGE</span>
 </footer>
-</main></body>
+<script src="site.js" defer></script>
+</body>
 </html>
