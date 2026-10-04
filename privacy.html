@@ -43,7 +43,8 @@
     <tr><td>สำเนาเซฟเกมทั้งก้อน</td><td>เล่นต่อบนเครื่องใหม่ · กู้เซฟเมื่อลงแอปใหม่</td><td>Unity Cloud Save</td></tr>
     <tr><td>ชื่อในโปรไฟล์ Google Play Games (ชื่อเล่น) และตัวเลือกซ่อนชื่อ</td><td>แสดงในอันดับและโหมดเล่นกับผู้อื่น — ผู้เล่นอื่นเห็นชื่อนี้ (ซ่อนได้)</td><td>Unity Cloud Save</td></tr>
     <tr><td>ช่วงอายุ (ต่ำกว่า 13 / 13 ขึ้นไป) — <b>ไม่เก็บวันเกิด</b></td><td>ตัดสินว่าเปิดระบบออนไลน์ได้ไหม</td><td>เครื่องของคุณ · Unity Cloud Save</td></tr>
-    <tr><td>คะแนนและบันทึกการกดในโหมดแข่ง (เมล็ดสุ่ม + ลำดับการกด)</td><td>จัดอันดับ · ตรวจการโกง</td><td>Unity Leaderboards · Unity Cloud Code</td></tr>
+    <tr><td>คะแนนและบันทึกการกดในโหมดแข่ง (เมล็ดสุ่ม + ลำดับการกด) · รหัสปลาในทีมที่ทำคะแนนดีสุด</td><td>จัดอันดับ · ตรวจการโกง (เซิร์ฟเวอร์คิดผลซ้ำทุกคะแนน)</td><td>Unity Leaderboards · Unity Cloud Code · Unity Cloud Save</td></tr>
+    <tr><td>รายงานผู้เล่นที่คุณส่ง (รหัสของผู้ถูกรายงาน เหตุผล เวลา) — รหัสของคุณเก็บแบบแฮชที่ย้อนกลับไม่ได้</td><td>ตรวจคะแนนผิดปกติ</td><td>Unity Cloud Save</td></tr>
     <tr><td>ยีนของปลาที่คุณตั้งให้ยืมหรือลงตลาด</td><td>ให้ผู้เล่นอื่นยืมหรือผสม</td><td>Unity Cloud Save</td></tr>
   </tbody>
 </table>
@@ -71,7 +72,8 @@
 <ul>
   <li>เซฟในเครื่อง: จนกว่าคุณจะลบแอปหรือลบเซฟ</li>
   <li>ข้อมูลบัญชีออนไลน์ เซฟบนคลาวด์ ชื่อ และคะแนน: จนกว่าคุณจะลบบัญชี</li>
-  <li>บันทึกตรวจการโกง: 90 วัน แล้วลบ (เก็บต่อหลังลบบัญชีได้ไม่เกินระยะนี้ เพื่อความปลอดภัยของระบบ)</li>
+  <li>บันทึกตรวจการโกงและรายงานผู้เล่น: 90 วัน แล้วลบ (เก็บต่อหลังลบบัญชีได้ไม่เกินระยะนี้ เพื่อความปลอดภัยของระบบ)</li>
+  <li>คะแนนในอันดับหลังกดลบบัญชีในเกม: ซ่อนจากอันดับทันที และลบออกจากระบบภายใน 30 วัน</li>
   <li>บันทึกว่ามีการลบบัญชี (เวลา และรหัสผู้เล่นที่แปลงด้วยฟังก์ชันแฮชจนย้อนกลับไม่ได้): เก็บไว้เป็นหลักฐานว่าลบแล้ว</li>
 </ul>
 
@@ -121,7 +123,8 @@
     <tr><td>A copy of your whole save</td><td>Continue on a new device · restore after reinstalling</td><td>Unity Cloud Save</td></tr>
     <tr><td>Your Google Play Games profile name (a nickname) and the hide-name option</td><td>Shown on leaderboards and in modes with other players — other players see it (you can hide it)</td><td>Unity Cloud Save</td></tr>
     <tr><td>Age band (under 13 / 13 or older) — <b>no birth date</b></td><td>Decide whether online features can be turned on</td><td>Your device · Unity Cloud Save</td></tr>
-    <tr><td>Scores and input logs in ranked modes (random seed + order of taps)</td><td>Leaderboards · cheat detection</td><td>Unity Leaderboards · Unity Cloud Code</td></tr>
+    <tr><td>Scores and input logs in ranked modes (random seed + order of taps) · IDs of the fish in your best-scoring team</td><td>Leaderboards · cheat detection (the server replays every score)</td><td>Unity Leaderboards · Unity Cloud Code · Unity Cloud Save</td></tr>
+    <tr><td>Player reports you send (the reported player's ID, reason, time) — your ID is stored only as a one-way hash</td><td>Reviewing unusual scores</td><td>Unity Cloud Save</td></tr>
     <tr><td>Genes of fish you lend or list on the market</td><td>Let other players borrow or breed them</td><td>Unity Cloud Save</td></tr>
   </tbody>
 </table>
@@ -149,7 +152,8 @@
 <ul>
   <li>Save on your device: until you delete the app or the save.</li>
   <li>Online account data, cloud save, name and scores: until you delete your account.</li>
-  <li>Cheat-detection logs: 90 days, then deleted (they may outlive a deleted account by no more than that, for security).</li>
+  <li>Cheat-detection logs and player reports: 90 days, then deleted (they may outlive a deleted account by no more than that, for security).</li>
+  <li>Leaderboard scores after you delete your account in the game: hidden from leaderboards immediately and removed from our systems within 30 days.</li>
   <li>A record that an account was deleted (the time and a one-way hash of the player ID): kept as proof of deletion.</li>
 </ul>
 
