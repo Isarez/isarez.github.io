@@ -96,13 +96,39 @@ main.doc > section[lang] + section[lang]{margin-top:56px;padding-top:40px;border
 .js main.doc > section[lang] + section[lang]{margin-top:0;padding-top:0;border-top:0}
 [hidden]{display:none !important}
 
-/* หัวหน้า — ภาพตู้ปลาเรืองแสงจากเกมจาง ๆ ข้างหลังชื่อหน้า */
+/* หัวหน้า — ลำแสงจากผิวน้ำส่องลงมาหลังชื่อหน้า (5 ต.ค. 69 แทนภาพตู้ปลาจาง ๆ "ไม่สวย")
+   ห้าลำ กว้างไม่เท่ากัน เอียงคนละมุม กระพริบช้า ๆ คนละจังหวะ — แสงที่ผ่านผิวน้ำไม่เคยนิ่งและไม่เคยเท่ากัน
+   โคนลำสว่างที่ผิวน้ำ จางลงตามความลึก · แสงฟุ้งที่ผิวน้ำ + ระลอกแสงบาง ๆ วิ่งตามแนวนอน */
 .hero{position:relative;padding:56px 0 24px;isolation:isolate}
-.hero-art{position:absolute;z-index:-1;left:50%;transform:translateX(-50%);top:0;width:100vw;height:100%;min-height:300px;
-  background:url("assets/tank-1600.jpg") center 38% / cover no-repeat;opacity:.42;
-  -webkit-mask-image:linear-gradient(180deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,.55) 55%, transparent 100%);
-  mask-image:linear-gradient(180deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,.55) 55%, transparent 100%)}
-@media (max-width:900px){.hero-art{background-image:url("assets/tank-800.jpg");opacity:.36}}
+.hero-rays{position:absolute;z-index:-1;left:50%;transform:translateX(-50%);top:-72px;width:100vw;height:calc(100% + 140px);min-height:380px;
+  overflow:hidden;pointer-events:none;filter:blur(9px);
+  background:
+    radial-gradient(60% 120px at 46% 0, rgba(150,255,240,.30), transparent 75%),
+    radial-gradient(34% 90px at 70% 0, rgba(182,156,255,.16), transparent 80%);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 45%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 45%,transparent 100%)}
+.hero-rays::before{content:"";position:absolute;left:-10%;right:-10%;top:0;height:120px;opacity:.55;
+  background:repeating-radial-gradient(ellipse 90px 14px at 50% 0, rgba(190,255,248,.22) 0 2px, transparent 3px 22px);
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent);mask-image:linear-gradient(180deg,#000,transparent);
+  animation:ripple 9s linear infinite}
+/* ลำแสงเป็นรูปคางหมู แคบที่ผิวน้ำแล้วบานออกตามความลึก — ลำแสงจริงกระจายออกจากผิวน้ำ ไม่ใช่แท่งตรง */
+/* เบลอที่กล่องแม่ ไม่ใช่ที่ลำ — clip-path ตัดหลังเบลอ ถ้าเบลอที่ลำ ขอบคางหมูจะคมเป็นแผ่นกระดาษ */
+.hero-rays i{position:absolute;top:-4%;height:116%;transform-origin:50% 0;mix-blend-mode:screen;
+  clip-path:polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+  background:linear-gradient(180deg, rgba(205,255,250,.62) 0%, rgba(63,224,207,.30) 28%, rgba(63,224,207,.08) 62%, transparent 90%);
+  animation:beam var(--d,9s) ease-in-out var(--w,0s) infinite alternate}
+.hero-rays i:nth-child(1){left:8%;width:clamp(90px,13vw,220px);--r:18deg;--d:8.5s;--w:-2s}
+.hero-rays i:nth-child(2){left:27%;width:clamp(130px,19vw,320px);--r:9deg;--d:11s;--w:-6s}
+.hero-rays i:nth-child(3){left:47%;width:clamp(60px,8vw,130px);--r:1deg;--d:7s;--w:-1s}
+.hero-rays i:nth-child(4){left:60%;width:clamp(120px,17vw,290px);--r:-8deg;--d:12.5s;--w:-8s;
+  background:linear-gradient(180deg, rgba(222,206,255,.58) 0%, rgba(182,156,255,.22) 30%, rgba(182,156,255,.06) 62%, transparent 90%)}
+.hero-rays i:nth-child(5){left:78%;width:clamp(80px,11vw,190px);--r:-17deg;--d:9.5s;--w:-4s}
+@keyframes beam{
+  0%{transform:rotate(var(--r)) translateX(-10px) scaleX(.85);opacity:.35}
+  45%{opacity:.95}
+  100%{transform:rotate(calc(var(--r) - 3deg)) translateX(12px) scaleX(1.12);opacity:.55}}
+@keyframes ripple{from{background-position:0 0}to{background-position:180px 0}}
+@media (max-width:700px){.hero-rays{top:-56px;filter:blur(7px)}.hero-rays i:nth-child(2),.hero-rays i:nth-child(4){opacity:.8}}
+@media (prefers-reduced-motion: reduce){.hero-rays::before,.hero-rays i{animation:none;opacity:.75;transform:rotate(var(--r))}}
 .kicker{margin:0 0 10px;font:700 13px/1.4 var(--head);letter-spacing:.24em;text-transform:uppercase;color:var(--bio);text-shadow:0 0 10px rgba(63,224,207,.6)}
 .hero h1{margin:0;font-size:clamp(30px,5.6vw,48px);line-height:1.2;text-wrap:balance;font-weight:700;color:#E9FDFF;text-shadow:var(--neon);
   animation:ignite 1.4s ease-out both}
@@ -241,7 +267,7 @@ html.sheet-open{overflow:hidden}
 @media (prefers-reduced-motion: reduce){.sheet,.fab,.scrim{transition:none}}
 
 @media print{
-  .sea,.hero-art,header.top nav,nav.toc,footer.site nav,.fab,.sheet,.scrim{display:none !important}
+  .sea,.hero-rays,header.top nav,nav.toc,footer.site nav,.fab,.sheet,.scrim{display:none !important}
   body{background:#fff;color:#000} section.card{border:0;box-shadow:none;padding:0;background:none} .hero h1{text-shadow:none;color:#000}
   [hidden]{display:block !important}
 }
