@@ -10,26 +10,42 @@
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="stylesheet" href="site.css">
 <style>
-  /* หน้าแรก — โลโก้หน้าปกจริงของเกม (ภาพจากแอป) · ตู้ปลาเรืองแสง · ปุ่มเอกสารแบบปุ่มในเกม */
-  .land{max-width:1180px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) var(--gutter) 10px}
-  .title-art{position:relative;border-radius:26px;overflow:hidden;border:1px solid var(--rim);
+  /* หน้าแรก — โลโก้หน้าปกจริงของเกม (ภาพจากแอป) · คำโปรย · ปุ่มเอกสารสามปุ่มแบบปุ่มพื้นใสขอบเรืองในเกม
+     5 ต.ค. 69 "เอาภาพในเกมออกไปและจัดหน้าให้สวยงาม" — เหลือของสามชั้นเรียงกลางจอ พอดีความสูงจอ (ไม่มีที่ว่างโหว่ใต้ปุ่ม) */
+  body{display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
+  .land{flex:1;width:100%;max-width:1080px;margin:0 auto;display:flex;flex-direction:column;justify-content:center;
+    padding:calc(16px + env(safe-area-inset-top)) var(--gutter) 4px}
+  footer.site{justify-content:center;text-align:center}
+  @media (max-width:720px){footer.site{flex-direction:column;align-items:center;gap:10px}}
+  /* โลโก้ย่อตามความสูงจอ — จอเตี้ย (แท็บเล็ต 4:3 · แล็ปท็อป) เห็นโลโก้ คำโปรย และปุ่มเอกสารครบในจอเดียว */
+  .title-art{position:relative;width:min(100%, max(340px, calc((100vh - 460px) * 2.4)));margin:0 auto;border-radius:26px;overflow:hidden;border:1px solid var(--rim);
     box-shadow:0 0 0 1px rgba(63,224,207,.08) inset, 0 0 60px rgba(63,224,207,.18), 0 30px 80px rgba(0,0,0,.45)}
   .title-art img{width:100%;height:auto;aspect-ratio:1600/667;object-fit:cover}
-  .tag{text-align:center;padding:18px 8px 4px}
-  .tag p{margin:0;color:#E9FDFF;font-size:clamp(17px,2.6vw,22px);line-height:1.5;text-shadow:0 0 14px rgba(63,224,207,.35)}
-  .tag p + p{color:var(--ink2);font-size:clamp(14px,2vw,17px);font-family:var(--head);letter-spacing:.02em}
-  .row{display:grid;grid-template-columns:1fr;gap:18px;margin-top:22px}
-  @media (min-width:860px){.row{grid-template-columns:minmax(0,1fr) 380px;align-items:start}}
-  .shot{position:relative;margin:0;border-radius:22px;overflow:hidden;border:1px solid var(--rim)}
-  .shot img{width:100%;height:auto;aspect-ratio:1600/733;object-fit:cover}
-  .shot figcaption{position:absolute;left:14px;bottom:12px;font:700 12px/1.4 var(--head);letter-spacing:.2em;color:var(--bio);
-    text-shadow:0 0 10px rgba(63,224,207,.8);background:rgba(2,9,15,.55);padding:6px 10px;border-radius:10px}
-  .docs-card{padding:20px;border-radius:22px;background:var(--panel);border:1px solid var(--rim);box-shadow:var(--glow)}
-  .docs-card h2{margin:0 0 14px;font:700 13px/1.4 var(--head);letter-spacing:.22em;text-transform:uppercase;color:var(--bio);text-shadow:0 0 10px rgba(63,224,207,.6)}
-  .docs-card .btn{width:100%;margin:0 0 10px}
-  .docs-card .btn:last-child{margin:0}
-  .docs-card .btn small{display:block;font-weight:400;color:var(--ink3);font-size:13px}
-  .docs-card .btn:hover small{color:inherit}
+  .tag{text-align:center;padding:22px 8px 0}
+  .tag p{margin:0;color:#E9FDFF;font-size:clamp(18px,2.6vw,23px);line-height:1.5;text-shadow:0 0 14px rgba(63,224,207,.35)}
+  .tag p + p{margin-top:2px;color:var(--ink2);font-size:clamp(14px,2vw,17px);font-family:var(--head);letter-spacing:.02em;text-shadow:none}
+  .docs-head{display:flex;align-items:center;gap:14px;margin:34px 0 14px;font:700 12px/1.4 var(--head);letter-spacing:.24em;text-transform:uppercase;color:var(--bio);text-shadow:0 0 10px rgba(63,224,207,.6)}
+  .docs-head::before,.docs-head::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--rim2))}
+  .docs-head::after{background:linear-gradient(90deg,var(--rim2),transparent)}
+  .docs-head .th{letter-spacing:.04em;text-transform:none;font-family:var(--body);font-size:14px}
+  .doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .door{display:flex;flex-direction:column;align-items:center;gap:10px;padding:24px 16px 20px;border:1px solid var(--rim2);border-radius:22px;
+    text-decoration:none;text-align:center;background:linear-gradient(180deg,rgba(63,224,207,.07),rgba(4,20,29,.55));
+    box-shadow:0 0 14px rgba(63,224,207,.16), inset 0 0 18px rgba(63,224,207,.07);transition:transform .25s, border-color .2s, box-shadow .25s}
+  .door:hover{transform:translateY(-3px);border-color:var(--bio);box-shadow:0 0 26px rgba(63,224,207,.38), inset 0 0 20px rgba(63,224,207,.14)}
+  .door svg{width:38px;height:38px;fill:none;stroke:var(--bio);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(63,224,207,.75))}
+  .door b{display:block;color:#DFFFFB;font-size:18px;font-weight:600;line-height:1.4}
+  .door small{display:block;color:var(--ink3);font:400 13.5px/1.4 var(--head);letter-spacing:.02em}
+  .door:hover small{color:var(--ink2)}
+  @media (max-width:720px){
+    .doors{grid-template-columns:1fr;gap:12px}
+    .door{flex-direction:row;justify-content:flex-start;text-align:left;gap:16px;padding:16px 18px}
+    .door svg{width:32px;height:32px;flex:none}
+    .door span{flex:1}
+    .door::after{content:"›";color:var(--bio);font-size:22px;line-height:1}
+    .docs-head{margin-top:26px}
+  }
+  @media (prefers-reduced-motion: reduce){.door{transition:none}.door:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -45,21 +61,21 @@
     <p lang="th">เกมเพาะพันธุ์ปลาเรืองแสงใต้เหวทะเล</p>
     <p lang="en">A glowing deep-sea fish breeding game by NECH</p>
   </div>
-  <div class="row">
-    <figure class="shot">
-      <picture>
-        <source media="(max-width:860px)" srcset="assets/tank-800.jpg">
-        <img src="assets/tank-1600.jpg" alt="ตู้ปลาเรืองแสงในเกม / Glowing fish in the game's tank" width="1600" height="733" loading="lazy">
-      </picture>
-      <figcaption>IN-GAME · <span class="th">ภาพจากในเกม</span></figcaption>
-    </figure>
-    <nav class="docs-card" aria-label="เอกสาร / Documents">
-      <h2><span class="th">เอกสาร</span> · DOCUMENTS</h2>
-      <a class="btn" href="privacy.html"><span>นโยบายความเป็นส่วนตัว<small>Privacy Policy</small></span><span aria-hidden="true">›</span></a>
-      <a class="btn" href="terms.html"><span>ข้อตกลงการใช้งาน<small>Terms of Use</small></span><span aria-hidden="true">›</span></a>
-      <a class="btn" href="delete-account.html"><span>ขอลบบัญชี<small>Delete your account</small></span><span aria-hidden="true">›</span></a>
-    </nav>
-  </div>
+  <h2 class="docs-head"><span><span class="th">เอกสาร</span> · Documents</span></h2>
+  <nav class="doors" aria-label="เอกสาร / Documents">
+    <a class="door" href="privacy.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 26 7.5v8c0 6.3-4.2 10.6-10 13-5.8-2.4-10-6.7-10-13v-8z"/><path d="M11.5 16.2l3.2 3.2 6-6.4"/></svg>
+      <span><b>นโยบายความเป็นส่วนตัว</b><small>Privacy Policy</small></span>
+    </a>
+    <a class="door" href="terms.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 4h11l5 5v19H9z"/><path d="M20 4v5h5"/><path d="M13 15h8M13 19.5h8M13 24h5"/></svg>
+      <span><b>ข้อตกลงการใช้งาน</b><small>Terms of Use</small></span>
+    </a>
+    <a class="door" href="delete-account.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="15" cy="17" r="10.5"/><path d="M10.5 17h9"/><circle cx="24.5" cy="6" r="2.2"/><circle cx="28.5" cy="11" r="1.3"/></svg>
+      <span><b>ขอลบบัญชี</b><small>Delete your account</small></span>
+    </a>
+  </nav>
 </main>
 <footer class="site">
   <nav aria-label="ติดต่อ / Contact"><a href="mailto:nech.studios@gmail.com">ติดต่อ / Contact: nech.studios@gmail.com</a></nav>
