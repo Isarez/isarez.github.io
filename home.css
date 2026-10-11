@@ -1,0 +1,493 @@
+/* หน้าแรก = หน้าของเกม (11 ต.ค. 69 รอบสอง "ปรับวัฏจักรให้เหมือนใน tutorial · ตู้แต่งให้สวยก่อน cap ·
+   แนะนำระบบเกมแนวคิดต่าง ๆ ให้สวยงาม มี transition effect animation ให้เหมาะกับเกม")
+   - วัฏจักรเหมือนหน้า "เป้าหมายของเกม" ในคู่มือ (`HelpArt.Cycle`): สี่ไอคอนบนวงรี เลี้ยง → สู้ → ได้ของ → ผสม
+     จุดแสงอำพันโคจรตามเข็มนาฬิกา (1.1 เรเดียน/วิ) ไอคอนที่จุดผ่านโตขึ้น ×1.22 และสว่างจาก 0.6 → 1 (ภายใน 60°) — สูตรเดียวกับ `Orbiter`
+   - แตะไอคอนบนวง = เปิดแผงระบบของช่วงนั้น · แอนิเมชันของแต่ละระบบอิงหน้าคู่มือ (แถบจังหวะ · ฝูงกัน · BREAK · วงหกธาตุ · ขั้น 1·4·7·10·13)
+   - ไอคอน/ตราทั้งหมดส่งออกจากโค้ดเกมจริง (`Editor/SiteArt.cs` → assets/icons/) · ภาพปลาถ่ายจากแอป
+   - การเคลื่อนไหวทั้งหน้า "ขึ้นมาจากความลึก" (เลื่อนขึ้น + หายเบลอ) · หัวข้อติดไฟแบบป้ายนีออน · ปิดหมดเมื่อเครื่องตั้งลดการเคลื่อนไหว */
+
+main.home{max-width:1180px;margin:0 auto;padding:0 var(--gutter) 24px}
+main.home > section[lang] + section[lang]{margin-top:56px;padding-top:40px;border-top:1px dashed var(--rim)}
+.js main.home > section[lang] + section[lang]{margin-top:0;padding-top:0;border-top:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.stage-bg{--stage:#05121a}
+
+/* ══ หัวหน้า ══ */
+.lead{position:relative;text-align:center;padding:34px 0 10px;isolation:isolate}
+.lead .hero-rays{top:-80px;height:calc(100% + 120px)}
+.logo-art{position:relative;width:min(100%, 980px);margin:0 auto;border-radius:26px;overflow:hidden;border:1px solid var(--rim);
+  box-shadow:0 0 0 1px rgba(63,224,207,.08) inset, 0 0 70px rgba(63,224,207,.20), 0 30px 80px rgba(0,0,0,.5)}
+.logo-art img{width:100%;height:auto;aspect-ratio:1600/667;object-fit:cover}
+.logo-art::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 35%,rgba(200,255,250,.16) 48%,transparent 60%);transform:translateX(-120%);animation:sweep 7s ease-in-out 1.6s infinite}
+.pitch{max-width:780px;margin:26px auto 0;font-size:clamp(18px,2.4vw,22px);line-height:1.65;color:#E9FDFF;text-shadow:0 0 14px rgba(63,224,207,.25);text-wrap:balance}
+section[lang="en"] .pitch{font-family:var(--head);font-size:clamp(16px,2.1vw,19px);line-height:1.7}
+.cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:26px 0 10px}
+.play,.ghost{display:inline-flex;align-items:center;gap:12px;min-height:56px;padding:10px 24px;border-radius:18px;text-decoration:none;font-weight:600;font-size:17px;line-height:1.3}
+.play{color:#E9FDFF;border:1px solid var(--bio);background:linear-gradient(180deg,rgba(63,224,207,.22),rgba(63,224,207,.06));
+  box-shadow:0 0 22px rgba(63,224,207,.40), inset 0 0 18px rgba(63,224,207,.18);text-shadow:0 0 8px rgba(63,224,207,.8);cursor:pointer;animation:breathe 3.6s ease-in-out infinite;transition:transform .2s, background .2s}
+.play:hover{color:#fff;transform:translateY(-2px);background:linear-gradient(180deg,rgba(63,224,207,.34),rgba(63,224,207,.10))}
+.play svg{width:26px;height:26px;flex:none;fill:none;stroke:#BFFFF7;stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(63,224,207,.9))}
+.play small{display:block;font:700 11px/1.2 var(--head);letter-spacing:.2em;text-transform:uppercase;color:var(--bio)}
+.play .th-small{letter-spacing:0;font-family:var(--body);font-size:13px;text-transform:none}
+.ghost{color:var(--ink2);border:1px solid var(--rim);transition:color .2s,border-color .2s,box-shadow .2s}
+.ghost:hover{color:var(--ink);border-color:var(--rim2);box-shadow:0 0 16px rgba(63,224,207,.22)}
+.fine{margin:6px 0 0;font-size:14px;color:var(--ink3)}
+/* ฟองลอยขึ้นหลังโลโก้ — คนละขนาด คนละจังหวะ */
+.lead .bubbles{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.lead .bubbles i{position:absolute;bottom:-20px;width:var(--s,10px);height:var(--s,10px);border-radius:50%;
+  border:1.5px solid rgba(160,255,245,.55);box-shadow:0 0 8px rgba(63,224,207,.5), inset 0 0 4px rgba(200,255,250,.35);
+  animation:rise var(--d,9s) linear var(--w,0s) infinite}
+/* เข้าหน้า: โลโก้ดำลงมาจากผิวน้ำ — จากมืดและเบลอ ขยายเล็กน้อย แล้วชัดเข้าที่ */
+.js .lead .logo-art{animation:dive 1.3s cubic-bezier(.2,.8,.2,1) both}
+.js .lead .pitch{animation:surface 1s ease .5s both}
+.js .lead .cta{animation:surface 1s ease .75s both}
+.js .lead .fine{animation:surface 1s ease .95s both}
+
+/* ══ หัวข้อของแต่ละช่วง ══ */
+.sec{margin:88px 0 0;scroll-margin-top:90px}
+.sec-head{text-align:center;max-width:780px;margin:0 auto 26px}
+.sec-head h2{margin:0;font-size:clamp(28px,4.4vw,42px);line-height:1.25;color:#E9FDFF;text-shadow:var(--neon)}
+section[lang="en"] .sec-head h2{font-family:var(--head)}
+.sec-head p{margin:12px 0 0;font-size:clamp(16px,2vw,18px)}
+.rv-on .sec-head.rv.in h2{animation:ignite 1.4s ease-out both}
+/* เส้นกระแสน้ำเรืองคั่นช่วง — วาดจากกลางออกสองข้างตอนเลื่อนถึง */
+.current{height:2px;margin:70px auto 0;max-width:720px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--bio),var(--violet),transparent);opacity:.55;filter:drop-shadow(0 0 6px rgba(63,224,207,.7))}
+.rv-on .current.rv{transform:scaleX(0);opacity:0;filter:none;transition:transform 1.2s cubic-bezier(.2,.8,.2,1),opacity 1.2s}
+.rv-on .current.rv.in{transform:none;opacity:.55}
+
+/* ══ วัฏจักร — วงโคจรแบบคู่มือ ══ */
+.orbit{position:relative;max-width:820px;height:500px;margin:0 auto}
+.orbit .track{position:absolute;left:14%;right:14%;top:15%;bottom:24%;border-radius:50%;
+  border:1.5px dashed rgba(63,224,207,.22);box-shadow:0 0 30px rgba(63,224,207,.06) inset}
+/* กลางวง — ลูกแก้วเรืองแสงที่มีตราเกม (ปลาสองตัวว่ายไล่กันเป็นวง = สายเลือดที่ผสมต่อกันไม่รู้จบ · `Emblems.LogoMark`)
+   ตราไล่สีสี่ช่วงตามทิศของไอคอนบนวง (บน เลี้ยงฟ้า · ขวา สู้ปะการัง · ล่าง ได้ของอำพัน · ซ้าย ผสมม่วง)
+   ตราหมุนช้า แต่สีหมุนสวน — สีค้างตามทิศ ปลาว่ายผ่านทิศไหนก็เปลี่ยนเป็นสีของช่วงนั้น · เม็ดแสงสี่ทิศสว่างตามจุดโคจร (home.js) */
+@property --rot{syntax:"<angle>";inherits:true;initial-value:0deg}
+/* ตราฝังในไฟล์ — หน้ากากจาก url() ภายนอกถูก Chrome บล็อกเมื่อเปิดไฟล์ในเครื่อง (file:// ข้ามต้นทาง) ตราจึงหายทั้งดวง · ต้นฉบับ assets/icons/logo-mark-w.png */
+.ocore{--mark:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUAAAAEeCAQAAABRHQSmAAAV1ElEQVR42u2df2xUZbrHP4eZ7ZipZTOmXbrBhRsMaA1KDUTW3uDqTU135UYUA9ELBpUNZHG7wdUNRl3MsnqDWVeMKEQjBiP3YiByhagLoVkQs1WMZDWYxYXQCJfmFqdxYrudON2ZnPsHQ+m0nZlz5rznnPec83ybjQu08+OdT5/31/N8H8NEJPJPk2QIRAKgSAAUiQRAkQAoEgmAIgFQJBIARQKgSCQAigRAkUgAFAmAIpEA6L2mImlDAqCPugMEQTdkyKha0sVhMmQoJALqAKJIAPQJO0FQAPRZjTIEAqCX+sOYP6eZIYMimxDv9E/i4/6ujY9kYCQCeqP4BH/XTYcMjADohX5R5u/3c4cMjgDovhaW/Ze9rJDhkTUgvp78reR1GSIB0D3VkavyHYvYJ8MkAPp385HjMhkmWQP6pwT/J4MgALqjv1j6rmZOy1DJFOxv6sFJrpbhkgioVnYu3GZJFBQAVeu3NnH9mwyZTMEq9RXTbf7ECa6VYZMIqEZzbOMHLXwlAycAqlGqpp+aLgMnU7DfyfdSNyIRUOpGBMBg62tBUADEtyJ0aJIoKAD6oyR5VslELADiU/pVM1nWKloL1hGTIZVdsD38mohxVNkjXkea8zKwEgGtKEYTTcRYrPAxXyHDNSRlcAVAK9GvmSlMr/EIemK1cT/QIFOxTMGV1UATjSSZTJaDyh/9JPv4gi84zrAMtQA40c43SYJmOuigbcI6YFUaYA8HeEuGXAAcHf1a6WSJx896lGf5Hxn8aAPYSAdP0OLra9jGVo4JgEQu12Ut6zV6PT08y6sCYDT0O63QG60890VtfRgtAO/hTVe3GGr0GWui470VlXPA2fwZk50BwA9a6cbk5WgcX0chAi5jR0Bf+RA/5guJgEHWRszA4gf1HMdkmURAAnm1tp9bQ/NuNvFrATBI8B2lNXTvagsPyRQcBPgOkgshfrAGc5xhugComd4lR3uIl0yPYvK4TMFoaqWxgajoZj4UAHXSAo4QLeX4IRmZgvXQt5HDDxJ8wzsCIBrc7JpMJppahBn0FW+wp+BG0oiOMU8ioB96UfADYC5mcJvmBDUCSuwbq+NcLxHQK60Q/BhfgWwGsYtnECPgN0oLJ8Ol3SwVAHG1fm1IKAuTP2GwpuC1gh9WPGk6JAK6oY+ZL3QRsvSt4AAoBczYrCy5gSR53b0YggFgAwO+v4YzfMFJTtFDLxnyFCiQpwBAjDgxYsRpZiozmcVMZjs2uVTjzQWDZAVAJ7qFQz486zkO0003n+PUc6uNNhawwJcLw3v5hCQD9JMFZnMjrcxkKk0kGKKXHj7nKIcFwPJaxSuePdcAb3GEz10rBEoyh1balRrAVdN63idJO49QX/H7jvAAPQLgWD3NE3hxi/BH9nmc3DSVFTyq3Ymm55sXvQF8RYlbMxUMMbaw2edl+gx+yRoSGo36Hu4WAAF2uehYtZmdmrkP3MGDLNLm1WzgqagD+C4LXXnch3lV413hVNa7HPU1u1HR9SbkHRfw20Icgxd0PpSgl9UYzKILHU5el0UVwHcUT0Z7aMXgoeKpnf46xW0YLOIzn1/HDl6L4hT8JssVPtpC3ifIWsdGX5+/m3+NFoDP8zCqUtUXc5YwqJ0/+ejrdYSfRGcKfkQRfs+QYF5I8IMuvkeLL/dBADe7ORHrFQHvYg8qLCy2Ek5N40WfjmoWu2WobhfAdhf3ZzM56fgxVofeaXkmr3EzoTmUsTsFH3RxSewUv5UYETD6znAnt/rgq2/qAaDBOpdOh5y9wccweJ0oqJ8kvaxkuefGHOv0WAP+lVYXJrr/5UpqP626j2hpCleSIsZcnkFdAmsPCWYyy9tpuJZNiAl08hI6JB30MC8MFj3Yv7JrZgop4ix3bM5xht1kSJBliH76mVt2mbWfn+kA4IVb2pXKpry5fBp1kzLsZxY2M4VmZjDIMkebkj30kKLAEMPF/52lj700exMDazkH/HcAtilbE3xaYz6LEVn8IEuaQQbpJ+8Iv/300QzkuFhYcKGs4LYy3/+aTgfRG5UgaNbUvuAKfkW0NUiaAfqYipPOTD2kyBMjMfKVpI7JTCuTDLJSDwCNEQTXOnz+Wn6jOrk8kuu+8Qhm6HNUqnqAFAXiUETwQtvaepKk6C9jfzJNjwg4NJLC/TROsoFX1tA74yVhrzgND5B1lLZ2sdYwTgyIESNGgjqS1JMsc5+0SQ8ALx/5f084QPA0di26Da2z+fD8UDrrEOH4KARjxElQR4IEdUwuM8soLqiKO8g1mTuCYI7f1/AIH9j8/ha+FOZKNOyw13GM/CgS8sQAKFCgnoZR/4aO2TDzSioIXrT98x22dm9dGILfBLrd0U8XSgLQxSiYJEEd8bIVezN0TMfq5GXbBwB2Hv02YY2JT0JxdJqYHxcTY0AdCSh7N7VCjykYjJIjlDUUbByN2Dn7a6JfSKPcIb4zAAfH0JAnRpwCECt7O7VA14TUTt60+J03WR64NIbg55oWMlBc940OSBei4AyXoFcK4NiLmeXswlqdARb9Pn8glLioOLPIjimKv3AbkqngSDFZpwh4bsyfl/DfVHe3x6KxzlJhBLerTZpJF08AL54DFsjwHAFxRpjIMvcQ/0alw2drp39X+WGVQ/DcUFFwmriXAgliQI5h5lS9XTF0qgkxLZby1QH1ZPjWUgivlwNnj/OUM/TRYDEr09BjFzzRXviC2viYH5fEyQR11JNmhSX8DCHLc6UsO3UdD0JZ5ny+Ksa9JFNoppEUDUxmu+CH2jZd3usj3QCcGJjpfA1F9FKkaKZAJ9WvxwU/XDrOR1kvEu3qgv9ZZiof4nIWAAlixChUHa4erhKm8LqU1dcCTTVT8LyyWwmTXppJ0Ui8aurVCcEP+zZGSL9gKhp5nybDVJppqGI3eZJrhacA6Iye3jBGxWL2DNWqSvu4Wj5bajMh91a/0tUbxqzi17JFdr6EoYWPoSuAM2znNwt+wQOwjx/qas/WI/j5pEVBfi6V9my1tZSRbL8gxUBDZ4PKWvxiWgS/AMXA+bobVN7IUaLk3xy1GGjo75Bq2oqYq4UcRYp5UMN2hRt2AKqTER61/J1pwU+hCgqN2sqFi4z+HtFTGOYb2XyEcBrOcRnau+THSIBFD+k+wS9QrbUuIwBtGhLAXItNZpqL+YKiICA4nUD0CUmSYoA2y2/qz0IM6uvccKF482wQAIyRJEfMRqePW3lXiFG+GVEfBZcTiFZdKZKkbNcLbOEhoUb77YgRhAiYI1ZDucoa/iS8uLAWVNvFoCEIAOZrTFVsEV5c0GqlG4flwYiA9rUJg38RWlzRWQwb1wJULHXaoj+AZk0Txa+FE1f1Rwzb903baOFnbiLnxibElBxA9K6de9NCJkuap3iLoaJHqjmm7OyYvgDae4h7eUuIwJ/uSh0s5I4xZ4V5ujjMUQ4DkBxliWKWlIxdrSuAprg8h1RPl1i0GXoCaNroZ/msfKYE9zzR0HETYlo2czAEvwBqtJHUL2t+lIOVnHOdREBTEk9Dr49HNi8ZrmAOzRyw9fO3cKhy9KwdQFN2vBGbhg1MJo+xNcdClrbhxhRsalk0KFKvS45mz4NF/DowMcljwe2stghoVulAu1jiX4S3Ira+f5Ji/I5hcDejC1lEQddtttiwieskhfg9gzHGqO2YtFUNgbpGHUdTwZbAHMOG4UYGrVk2rWpryel6vKJvoChYupVDQHlv1GkTZEIZbpwDmhOa6nZhjOktuw8Y30NEFFQdHhcLL+oRbsesHT97EdC0fK87G8Ci5b9If03hYveDw5a8gAw3bkLMCVZ85dIKZhX/u1Y+u1Coj7F9MudgqsDP+jGMOeag5W7Lh5ciAt/O62DJ5/l4RRcGw41kBNNmCy1zVJx8Uj5BwnMO2MlmtbdeVqbgf3Cp0sCwgN9MGDl+eUI+v4Cr1Nt7s+pL1+qbkG+oB/aQqtiCkJJC5nP8aOT35rQ0XyDIrlsb3b3zj1sIv/fzBvbcon9U8idRcHXE7ZSTygB+W9MDvzAOYtmKBFOrLButGO4kpH6/pgfuKW4/Luke+SwDp2V8bdnz29DHIdXjhG6RK5pmy2TA0M1NaeLJ/Ptcal09DFxw01pAO23MLL6ODMfoYqebbkwixVWOhuNnc+3r7+ZorTUxY2aDWWditpuvmNW0y5xrIl+efq0wPzDtyfFzujkF30Q3Y02uk3Ta2NjDdh6QkIS31R+e2gsYppfBfCXbaniUvdwpfLiq37LBL9M2bwHEgdvTq8KJK7qlmOtnf/dQ0B/Al1lDMEy4ZcuBzQZrA8WtJHr1CSnVU4qH6g7hBR2MzVuKHRG0B1B1K4a9lWrsRR4h2EaBuI36YB8BRPnKbTkfCDG+IriQYWKjPLS0XgNewwkXHvWQ5bwckVXVWXa4bWI2p0irWQG6HQFP4E6N1mtCjGINc53l0e8lpwo/dwF0L7iu5CZhRnEEtNrx/i561RzAuD0Fv8vCwHZGI4KJp99ZzgtQ2rbVrQg4x2X8vGxTHwXtspGW8gedG1Z7icfSspX6IntawXa/Zh93IuAvPPqtFanQXJv4obLHnzsR0Kvp8Tl+I/zg1PWgz88VuBsR8EHPBu9R4cfx5qOvpp+7S+cI6OX2wG7FnkjVZ2XoGgG9LcPcLgy5ht/Oiv96j64APi+fa0D0DZUbFh6umD68U1cAvTYl3ygk1aS/k6r47zuYwqGKNkS/03ENWFdT21a5E/Faf6vSp3kLh0kSo4dZFaqDDf0i4M3y2QYi+lVrE/4GkKaXBF0V7rSm6QfgMh+Gs1GIsqWvRwxEKZvsESNNhn7OkORA2Xq5M2g3BX9b0l/MGy3kfaFK4cHLENeTIkeeYYYYBjJlj6uv4wtnLyfuYns7r9QqACo997uTASBHnizZYurVeYwJf/a403XgpBAMqhjAWd0gWsGvmy4gTZrzDJZk/hlu3HupnoKrPdzJUa3fC7QwFxWlSlK4joV+6ecUZPuZqvfC3kbAzXw46k8JjlexfLWmeqGL6kbj1vBbUyXZ1NCrYTU2UweSJCiMfOVI0Mgmx4+bE76q6MVRPveVtbWGU1czGACupxnIF3vIXpyECzTV5BdDSa8mERVP/TotfueVNR78x/QH8CTniZGjACUIQoyCwxqDfmGM8ulWZtVTv0tr6d4a757y+gP4Ag1kyVEYV1FVoIGjDuEWTawlttC408H15026ALinzN9nivDlJzyL7HX0nKeEtAn1pq2ihRac3MB3o8lB9Bsl3dIvKcswOWLERp4zXjIJO9FnwhrjryfTtr5/C19iPwnE1G8X3FXm7/PkyJFjmAL5CVaCTnTeySI4lLrHJn7wEE7zkEw9ImA505pB6skSJ06MBIWSnVOhSmZaZZ2jgbh0Zh+l07bvhpqoPRXO1O0csLuMpVemGAMvfF1YD+aBGEPMdPB8W5lBUqgr6nZM2/g95ugcwXAWA9UXJc3gNBP3EL6RehpIUk8dCeLFFWE9aUc+qktJ00evKr+6iMU+Nbcb5kgk7fc/AvaUbfv0JTkGyTJAduRIJk6m2F+dGg+hk6RIkYr8OnBtDbFP1eWaMbIc0uIccE2Zi7g5nCQ/chGXLx7PpBxlUe8gRYrJpBytIwl8PtB3NV5pXonKsoiEHgCWu0/cxir66CFDlhxZ0mSYwxKcHbU2kKORJhoji+AuTtfo2LzB4QnseARNPaw5VlUoZOniBBmSTGe27cNPylwhvUGOQXpJR24luNZBMsdn3ID6ZDwjOu5Ypb/L75FjkD517sXa666y907+VRPaRtAtABt8yFG5nw8ZIBeJKHhT7ZdfLhezmvYMLN1KRhhkh+cfynb+QhvZ0O+HF/CdY/yaca9K+6CO/YK9Ux+L+QhprFVJP+WALm9oUugcC5rp5h/cSDhvOVTg16kPfm7nA/plmlHPUUxWEJ56tqcxeU/JYz3LSzq9NcMk1GbiO7gv4PDNZBetyh5tGz/X6+0Zps4miGo0wFKdJh2sp9OvYgtq04Xv1u1NToqAe9Vk9mPydqCa2yzhU/KK8durH35e1YQYGrSbXkw3Jm9r76PQzl8x2aWkZD8A5fuGZ/PjNBVeSsqmoqecmuq4MOG2s0nR5eR47Wapnr9vhqcLtHVa+ZmeYDNdGpQ03UgH61z1d9jOA7oGfMPzHcI67Ux1j/MGr/uQ1H8NK1nhIB0eywcvj+m74jB82aJO40ULXtJd7OacotMvKxpiKzs4oa4VKRPfks/nQe717F09zAs6L3kNX89IHuRe2sdhcJjdvEeOOA2kKPC25dp+dSju5hinOMFZRbFuFi0scL2BI8Ez7zRMnc//4yRJkmUjK319JZ9xiuOc4gxnq6ZwxpjONGYwi2to8fxXhzHXkuc13/NrDeClSSvLQvYiCmH3AMMMzpWUeMDY2eFfG4wXGhyL3lMYUn6O1S6i1wblpQbLI/oKHha6qF7pFqAmtsGZgi9qjpgRhalvVPBc8j/HcOgnGF6tD17bsuBFQKoWfkZVs4LolBhUAMH/PEOdFNhWFZMCvdp5VMgDYH5wO6UYZvBb7zVFGj5tE62iAiC026tEDZXqg+4EEYZecV0YPpTB+6/VGME3IjHM8JQunnGx3l83aZxiGlUAAa7hRATgS/OD8LyZSaH6aL7E8DDV0w/laQkTfmEDEOAtDJaHFL5WvldDPw+ZgvGnsnZXqN5PS9jQC2sEZOR8zLBQdxIEHecqjHDiF2YAAfZhcCVHCHJmn8H1ZTsPCIABUC8/weCZAL7ypRhByuwTACvpSQzaOBaQV7uTJgx2R+GDiQqAAB8xD4NFtbRTwbtbnXkY/Ed0mnAbEc1pWsYrrpphUEPp52o+id4HMSma/PFfXI7BIiWWtzjO5bsVgxuiiF90I+BoTeGnPMJ1nj9vD69yKJrYCYBM6GmwgjXKffnGK8cO9nGGPv19CwRAf9RBB23Md+WxW5lBhkHSZKTFrABYOSK20sh+pY+5iU8Y4Dxp+lx24QqI4jIEZZXgHDkS5FB5N5Ogj376KMgAR3kXbEVZztNLPdsUPmaBfsFPIqB1Zajj52QU1d/dTx850oKfREDrGibGbxTdJWcZkLWfAGh/2oQnFSD4HrsZFvwEQGpMZ9igZEoXIccwtepxR3HQICarPwHQPwQNGT6Zgp3qP3muxp+cJ4MnERAfXbkk/kkERJUfi32JwbpEQFQ2jhjAbstYSTyQCKhMg0yWQRAAg4PgBol/AqB6BK17cSVluGQNiCvJ/H2yA5YI6J/OR8iRUCIgQT0VlPgnEVA6EwmAUUVQ2szKFOzrRCwRUiKgTMQCYFQRbJOBEQD9RDAhwyJrQP/WgulwOdoLgMFDUNaGMgV7rGcFPwHQTz3GehkEAdBP/Z4nAOiUoZA1oF96kG0yASPeML7p9Yi30ZYIKJI1oEgkAIoEQJFIABQJgCKRACgSAEUiAVAkAIpEAqBIABQJgCKRACiKoP4fWy1x38hnfOMAAAAASUVORK5CYII=")}
+.ocore{position:absolute;left:50%;top:45.5%;width:140px;height:140px;transform:translate(-50%,-50%);pointer-events:none}
+.ocore > i{position:absolute;inset:0;border-radius:50%;display:block}
+.ocore .halo{inset:-34px;background:radial-gradient(circle, rgba(63,224,207,.24), rgba(180,140,255,.10) 48%, transparent 70%);animation:halo 5s ease-in-out infinite}
+.ocore .ring.r1{inset:-11px;border:1.5px dashed rgba(63,224,207,.32);animation:spin2 46s linear infinite}
+.ocore .ring.r2{inset:-2px;border:1px solid rgba(180,220,255,.16);animation:spin2 30s linear infinite reverse;
+  background:conic-gradient(from 0deg, transparent 0 70%, rgba(63,224,207,.35) 85%, transparent 100%);-webkit-mask:radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));mask:radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px))}
+.ocore .bead{inset:auto;left:50%;top:50%;width:10px;height:10px;margin:-5px;background:var(--c);box-shadow:0 0 8px var(--c),0 0 18px var(--c);
+  transform:rotate(var(--a)) translateY(-77px) scale(calc(1 + .7 * var(--kb,0)));opacity:calc(.35 + .65 * var(--kb,0))}
+.ocore .orb{inset:10px;background:radial-gradient(circle at 50% 36%, rgba(24,78,92,.7), rgba(4,18,28,.94) 62%, rgba(2,10,16,.97));
+  border:1.5px solid rgba(63,224,207,.42);box-shadow:0 0 34px rgba(63,224,207,.24), inset 0 0 26px rgba(63,224,207,.16), inset 0 -12px 30px rgba(180,140,255,.14)}
+/* แสงสีฟุ้งในลูกแก้ว — สีชุดเดียวกับตรา หมุนตามกัน (สีค้างตามทิศ) */
+.ocore .glow{inset:24px;background:conic-gradient(from 0deg, #3FE0CF, #FF7A8A 25%, #F2B15C 50%, #B48CFF 75%, #3FE0CF);filter:blur(18px);opacity:.22;animation:halo 5s ease-in-out infinite}
+.ocore .mkw{inset:15px;border-radius:0;filter:drop-shadow(0 0 2px rgba(255,255,255,.45)) drop-shadow(0 0 7px rgba(140,255,240,.35))}
+.ocore .mk{position:absolute;inset:0;display:block;-webkit-mask:var(--mark) center/contain no-repeat;mask:var(--mark) center/contain no-repeat;
+  background:conic-gradient(from calc(-1 * var(--rot)), #7FFFF1, #3FE0CF 8%, #FF7A8A 25%, #F2B15C 50%, #B48CFF 75%, #3FE0CF 92%, #7FFFF1);
+  transform:rotate(var(--rot));animation:rot 26s linear infinite}
+.ocore .sheen{inset:18px 44px auto 28px;height:28px;border-radius:50%;background:radial-gradient(ellipse, rgba(255,255,255,.30), transparent 70%);transform:rotate(-24deg)}
+.node{position:absolute;left:var(--x);top:var(--y);text-decoration:none;transform:translate(-50%,calc(-50% + 16px));display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:6px 10px 8px;border:0;border-radius:20px;background:none;cursor:pointer;color:var(--ink2);font:inherit}
+.node .ic{position:relative;display:grid;place-items:center;width:104px;height:104px;transform:scale(var(--k-scale,1));opacity:var(--k-alpha,.6);
+  transition:opacity .2s;will-change:transform}
+.node .ic img{width:92px;height:92px;object-fit:contain}
+.node .ic::before{content:"";position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle, color-mix(in srgb, var(--c) 26%, transparent), transparent 70%);opacity:var(--k-glow,0)}
+.node b{font-size:20px;line-height:1.2;color:#E9FDFF;text-shadow:0 0 10px color-mix(in srgb, var(--c) 60%, transparent)}
+section[lang="en"] .node b{font-family:var(--head);font-size:17px}
+.node:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+/* จุดแสงอำพันโคจร — `HelpArt.Cycle` ใช้ SoftDot สีอำพัน */
+.orbit .dot{position:absolute;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle, #FFF4D6 0 18%, rgba(242,177,92,.95) 30%, rgba(242,177,92,.35) 55%, transparent 72%);
+  filter:drop-shadow(0 0 10px rgba(242,177,92,.9));will-change:transform;opacity:0}
+.js .orbit .dot{opacity:1}
+.loopline{text-align:center;max-width:820px;margin:8px auto 0;font-size:clamp(16px,2vw,18px);color:var(--ink)}
+.loopline b{color:var(--amber);font-weight:600}
+
+/* ══ ระบบของเกม — สี่ช่วงของวงเรียงต่อกันเป็นหน้ายาว (11 ต.ค. 69 "tab ระบบเกม ให้เป็น page เดียวแบบยาวต่อกันเลย") ══
+   หัวช่วงมีไอคอนของช่วง · ท้ายช่วงมีป้าย "ถัดไป" พาไปช่วงต่อ — ช่วงสุดท้ายวนกลับไปเลี้ยง (เป็นวงจริง ไม่ใช่รายการ) */
+.group{margin:58px 0 0;scroll-margin-top:84px}
+.g-head{position:relative;display:flex;align-items:center;gap:18px;margin:0 0 18px;padding-bottom:14px;border-bottom:1px solid color-mix(in srgb, var(--c) 28%, transparent)}
+.g-head::after{content:"";position:absolute;left:0;bottom:-1px;width:150px;height:2px;border-radius:2px;background:var(--c);box-shadow:0 0 10px var(--c)}
+.g-ic{flex:none;display:grid;place-items:center;width:80px;height:80px;border-radius:50%;border:2px solid var(--c);
+  background:radial-gradient(circle, color-mix(in srgb, var(--c) 22%, transparent), rgba(2,12,18,.92) 70%);box-shadow:0 0 18px color-mix(in srgb, var(--c) 45%, transparent), inset 0 0 14px color-mix(in srgb, var(--c) 25%, transparent)}
+.g-ic img{width:62px;height:62px;object-fit:contain}
+.g-head .kick{margin:0;font:700 12px/1.4 var(--head);letter-spacing:.24em;text-transform:uppercase;color:var(--c)}
+section[lang="th"] .g-head .kick{letter-spacing:.04em;font-family:var(--body);font-size:13px}
+.g-head h3{margin:2px 0 0;font-size:clamp(25px,3.2vw,31px);line-height:1.25;color:#EFFFFF;text-shadow:0 0 8px color-mix(in srgb, var(--c) 70%, transparent), 0 0 22px color-mix(in srgb, var(--c) 35%, transparent)}
+section[lang="en"] .g-head h3{font-family:var(--head)}
+.g-head p:last-child{margin:4px 0 0;font-size:15.5px}
+.rv-on .g-head.rv.in .g-ic{animation:pop1 .8s cubic-bezier(.2,.8,.2,1) both}
+.next{display:flex;align-items:center;gap:12px;margin:26px auto 0;width:max-content;max-width:100%;padding:9px 20px;border-radius:999px;text-decoration:none;
+  color:var(--ink2);border:1px dashed color-mix(in srgb, var(--c) 50%, transparent);font-size:15px;transition:color .2s,box-shadow .2s,border-color .2s}
+.next i{flex:none;width:10px;height:10px;border-right:2px solid var(--c);border-bottom:2px solid var(--c);transform:rotate(45deg) translateY(-3px);filter:drop-shadow(0 0 4px var(--c));animation:nudge 1.6s ease-in-out infinite}
+.group:last-child .next i{width:auto;height:auto;border:0;transform:none;animation:spin2 3s linear infinite;color:var(--c);font-style:normal;font-size:18px;line-height:1}
+.group:last-child .next i::before{content:"↻"}
+.next:hover{color:var(--ink);border-style:solid;border-color:var(--c);box-shadow:0 0 14px color-mix(in srgb, var(--c) 32%, transparent)}
+.panel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{position:relative;display:flex;flex-direction:column;border-radius:22px;background:var(--panel);border:1px solid color-mix(in srgb, var(--c) 32%, transparent);
+  box-shadow:0 0 24px color-mix(in srgb, var(--c) 10%, transparent);overflow:hidden;transition:border-color .25s, box-shadow .25s, transform .25s}
+.card:hover{border-color:color-mix(in srgb, var(--c) 60%, transparent);box-shadow:0 0 34px color-mix(in srgb, var(--c) 22%, transparent);transform:translateY(-2px)}
+.card::before{content:"";position:absolute;left:22px;right:22px;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--c),transparent);opacity:.8}
+.card.wide{grid-column:span 2}
+.card .txt{padding:16px 20px 20px}
+.card h4{margin:0;font-size:19px;line-height:1.35;color:#EFFFFF}
+section[lang="en"] .card h4{font-family:var(--head);font-size:17px}
+.card p{margin:8px 0 0;font-size:15.5px;line-height:1.65}
+.card .kick{margin:0 0 6px;font:700 11px/1.4 var(--head);letter-spacing:.24em;text-transform:uppercase;color:var(--c)}
+
+/* เวทีภาพของการ์ด — พื้นเดียวกับกรอบภาพในเกม ภาพที่ถ่ายมาจึงกลืนเข้าขอบ */
+.vis{position:relative;height:236px;background:radial-gradient(120% 90% at 50% 45%, #0a2230 0%, #05121a 60%, #040e15 100%);overflow:hidden;isolation:isolate}
+.vis img{display:block}
+.fade-edge{-webkit-mask-image:radial-gradient(closest-side, #000 62%, transparent 100%);mask-image:radial-gradient(closest-side, #000 62%, transparent 100%)}
+
+/* — ภาพสลับ: ภาพจริงจากเกมวนกัน (ฉากสู้สามโลก · ฉากผสมสองจังหวะ) ซูมช้า ๆ แบบกล้องลอยในน้ำ — */
+.card.full{grid-column:1 / -1}
+.vis-show img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.vis-show img:first-child{opacity:1}
+.vis-show.n3 img{animation:show3 12s linear infinite, drift 12s ease-in-out infinite;animation-delay:calc(var(--i) * 4s)}
+.vis-show.n2 img{animation:show2 9s linear infinite, drift 9s ease-in-out infinite;animation-delay:calc(var(--i) * 4.5s)}
+.vis-show.big{height:auto;aspect-ratio:16/9;max-height:620px}
+.vis-show .tags{position:absolute;left:16px;bottom:14px;height:30px;right:16px}
+.vis-show .tags span{position:absolute;left:0;bottom:0;padding:5px 12px;border-radius:999px;font-size:13.5px;color:#EFFFFF;background:rgba(2,9,15,.72);border:1px solid color-mix(in srgb, var(--c) 55%, transparent);
+  box-shadow:0 0 12px color-mix(in srgb, var(--c) 30%, transparent);opacity:0;white-space:nowrap}
+.vis-show .tags span:first-child{opacity:1}
+.vis-show.n3 .tags span{animation:show3 12s linear infinite;animation-delay:calc(var(--i) * 4s)}
+.vis-show.n2 .tags span{animation:show2 9s linear infinite;animation-delay:calc(var(--i) * 4.5s)}
+.vis-show::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(200,255,250,.14) 48%,transparent 60%);transform:translateX(-120%);animation:sweep 8s ease-in-out 2s infinite}
+
+/* — ไข่: โยกเบา ๆ ก่อนฟัก ฟองลอยขึ้น — */
+.vis-egg .egg{position:absolute;left:50%;top:50%;width:132px;transform:translate(-50%,-52%);filter:drop-shadow(0 0 16px rgba(63,224,207,.55));animation:wobble 3.2s ease-in-out infinite}
+.vis-egg .ring{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-79px 0 0 -75px;border-radius:50%;border:2px solid rgba(63,224,207,.55);animation:tapRing 3.2s ease-out infinite}
+.vis i.b{position:absolute;bottom:-14px;width:var(--s,8px);height:var(--s,8px);border-radius:50%;border:1.5px solid rgba(160,255,245,.6);animation:rise var(--d,5s) linear var(--w,0s) infinite}
+
+/* — สามวัย: ลูกปลา → วัยรุ่น → เต็มวัย — */
+.vis-grow{display:flex;align-items:center;justify-content:space-around;padding:0 6px}
+.vis-grow figure{margin:0;display:flex;flex-direction:column;align-items:center}
+.vis-grow img{height:auto;animation:bob 3.4s ease-in-out infinite;animation-delay:var(--w,0s)}
+.vis-grow figcaption{margin-top:-4px;font-size:13px;line-height:1.3;color:var(--ink2);text-align:center;white-space:nowrap}
+.vis-grow .chev{flex:none;width:16px;height:16px;border-top:2.5px solid var(--amber);border-right:2.5px solid var(--amber);transform:rotate(45deg);
+  filter:drop-shadow(0 0 6px var(--amber));animation:chev 1.8s ease-in-out infinite;animation-delay:var(--w,0s)}
+
+/* — ภาพเต็มเวที (ตู้แต่ง) — */
+.vis-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;transition:transform 6s ease}
+.card:hover .vis-photo img{transform:scale(1.06)}
+.vis-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(200,255,250,.18) 48%,transparent 60%);transform:translateX(-120%);animation:sweep 6s ease-in-out 1s infinite}
+
+/* — ห้าสายของท่า: ตราหกเหลี่ยมลอยขึ้นทีละอัน — */
+.vis-schools{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:nowrap;padding:0 8px}
+.vis-schools figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:2px;animation:spot 4.5s ease-in-out infinite;animation-delay:calc(var(--i) * .9s)}
+.vis-schools img{width:clamp(48px,7vw,68px);height:auto}
+.vis-schools figcaption{font-size:12.5px;color:var(--ink2);white-space:nowrap}
+
+/* — แถบจังหวะ: เข็มวิ่งเข้าเขต แตะกลางเขตทอง = PERFECT — */
+.vis-rhythm .bar{position:absolute;left:10%;right:10%;top:46%;height:30px;border-radius:15px;border:1.5px solid rgba(63,224,207,.45);background:rgba(2,12,18,.8)}
+.vis-rhythm .zone{position:absolute;left:36%;width:28%;top:3px;bottom:3px;border-radius:12px;background:linear-gradient(90deg,rgba(63,224,207,.15),rgba(63,224,207,.45),rgba(63,224,207,.15))}
+.vis-rhythm .core{position:absolute;left:46%;width:8%;top:3px;bottom:3px;border-radius:10px;background:var(--amber);box-shadow:0 0 14px var(--amber)}
+.vis-rhythm .needle{position:absolute;top:-8px;bottom:-8px;width:4px;margin-left:-2px;border-radius:3px;background:#fff;box-shadow:0 0 10px #fff, 0 0 18px var(--bio);animation:needle 2.8s cubic-bezier(.45,0,.55,1) infinite}
+.vis-rhythm .pulse{position:absolute;left:50%;top:calc(46% + 15px);width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;border:2px solid var(--amber);opacity:0;animation:pulse 2.8s ease-out infinite}
+.vis-rhythm .word{position:absolute;left:0;right:0;top:18%;text-align:center;font:700 26px/1 var(--head);letter-spacing:.06em;color:#FFF3D6;
+  text-shadow:0 0 6px var(--amber),0 0 18px var(--amber);opacity:0;animation:pop 2.8s ease-out infinite}
+.vis-rhythm .hint{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:13px;color:var(--ink3)}
+
+/* — กันด้วยฝูงปลา: ฝูงเรืองหุบเข้าหาฟองเกราะ ถึงแถบทอง = PARRY — */
+.vis-parry .shield{position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px;border-radius:50%;
+  background:radial-gradient(circle at 38% 34%, rgba(220,245,255,.35), rgba(110,170,255,.12) 55%, transparent 70%);border:1.5px solid rgba(140,190,255,.6);box-shadow:0 0 18px rgba(110,170,255,.35)}
+.vis-parry .gold{position:absolute;left:50%;top:50%;width:124px;height:124px;margin:-62px;border-radius:50%;border:6px solid rgba(242,177,92,.75);box-shadow:0 0 14px rgba(242,177,92,.6)}
+.vis-parry .school{position:absolute;left:50%;top:50%;width:124px;height:124px;margin:-62px;animation:school 2.6s cubic-bezier(.5,0,.75,1) infinite}
+.vis-parry .school i{position:absolute;left:50%;top:0;width:12px;height:7px;margin-left:-6px;border-radius:50% 60% 60% 50%;background:#CFFFF8;box-shadow:0 0 8px var(--bio),0 0 14px var(--bio);
+  transform-origin:6px 62px;transform:rotate(calc(var(--i) * 45deg))}
+.vis-parry .flash{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px;border-radius:50%;background:radial-gradient(circle, rgba(255,240,200,.6), transparent 65%);opacity:0;animation:flash 2.6s ease-out infinite}
+.vis-parry .word{position:absolute;left:0;right:0;top:14px;text-align:center;font:700 24px/1 var(--head);letter-spacing:.08em;color:#FFF3D6;text-shadow:0 0 6px var(--amber),0 0 18px var(--amber);opacity:0;animation:popP 2.6s ease-out infinite}
+
+/* — BREAK: หลอดม่วงเติมทีละช่วง แล้วป้ายนีออนติดไฟ — */
+.vis-break .bar{position:absolute;left:12%;right:12%;top:62%;height:14px;border-radius:8px;background:rgba(2,12,18,.85);border:1px solid rgba(182,156,255,.45);overflow:hidden}
+.vis-break .fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:8px;background:linear-gradient(90deg,#7C5CFF,var(--violet),#E2D6FF);box-shadow:0 0 12px var(--violet);animation:fillB 4s ease-in-out infinite}
+.vis-break .lbl{position:absolute;left:12%;top:calc(62% - 22px);font:700 11px/1 var(--head);letter-spacing:.2em;color:var(--violet)}
+.vis-break .sign{position:absolute;left:0;right:0;top:20%;text-align:center;font:700 46px/1 var(--head);letter-spacing:.04em;color:#F1EBFF;
+  text-shadow:0 0 6px var(--violet),0 0 20px var(--violet),0 0 42px rgba(182,156,255,.6);opacity:0;animation:signB 4s linear infinite}
+
+/* — วงหกธาตุ — */
+.vis-wheel{height:300px;display:flex;align-items:center;justify-content:center;gap:28px}
+.wheel{position:relative;flex:none;width:260px;height:260px}
+.wheel svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.wheel .arc{fill:none;stroke:rgba(150,200,215,.25);stroke-width:2}
+.wheel .arc.hit{stroke:#FFE3B0;filter:drop-shadow(0 0 6px var(--amber))}
+.wheel .arc2.hit{stroke:rgba(255,227,176,.55)}
+.wheel .el{position:absolute;left:50%;top:50%;width:68px;height:68px;margin:-34px;transform:rotate(var(--a)) translateY(-104px) rotate(calc(-1 * var(--a)));transition:filter .3s}
+.wheel .el img{width:100%;height:100%;transition:transform .3s}
+.wheel .el.atk img{transform:scale(1.22)}
+.wheel .el.def img,.wheel .el.def2 img{opacity:.95}
+.wheel .el.atk{filter:drop-shadow(0 0 12px #fff)}
+.wheel-note{max-width:300px;font-size:15px;line-height:1.6;color:var(--ink2)}
+.wheel-note b{display:block;font-size:20px;line-height:1.35;color:#EFFFFF;margin-bottom:6px}
+.wheel-note .x{color:var(--amber);font-family:var(--head);font-weight:700}
+
+/* — สามโหมด — */
+.vis-modes{display:flex;align-items:center;justify-content:space-around;padding:0 10px}
+.vis-modes figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;animation:bob 3.6s ease-in-out infinite;animation-delay:calc(var(--i) * .5s)}
+.vis-modes img{width:72px;height:72px;object-fit:contain}
+.vis-modes b{font:700 24px/1 var(--head);color:#EFFFFF;text-shadow:0 0 10px color-mix(in srgb, var(--c) 70%, transparent)}
+.vis-modes figcaption{font-size:12.5px;color:var(--ink2);text-align:center;line-height:1.35}
+
+/* — ของจากด่าน: ของลอยขึ้นจากก้นเวทีทีละชิ้น — */
+.vis-loot{display:flex;align-items:center;justify-content:center;gap:clamp(10px,3vw,26px)}
+.vis-loot figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px;animation:drop 3.6s cubic-bezier(.2,.8,.2,1) infinite;animation-delay:calc(var(--i) * .35s)}
+.vis-loot img{width:62px;height:62px;object-fit:contain}
+.vis-loot figcaption{font-size:12.5px;color:var(--ink2);white-space:nowrap}
+
+/* — จับปลา: ฟองดักหุบเข้าหาไข่ — */
+.vis-catch .egg{position:absolute;left:50%;top:50%;width:96px;transform:translate(-50%,-52%);filter:drop-shadow(0 0 12px rgba(63,224,207,.6))}
+.vis-catch .trap{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px;border-radius:50%;
+  background:radial-gradient(circle at 36% 30%, rgba(220,255,250,.28), rgba(63,224,207,.08) 55%, transparent 70%);border:2px solid rgba(160,255,245,.65);
+  box-shadow:0 0 18px rgba(63,224,207,.45), inset 0 0 18px rgba(63,224,207,.25);animation:trap 3s ease-in-out infinite}
+.vis-catch .arc{position:absolute;left:50%;top:50%;width:190px;height:190px;margin:-95px;border-radius:50%;border:3px solid transparent;border-top-color:var(--amber);border-right-color:rgba(242,177,92,.4);
+  filter:drop-shadow(0 0 6px var(--amber));animation:spin 3s linear infinite}
+
+/* — ยีนเก้าช่อง: ไล่สว่างทีละช่องแบบคู่มือ (`Spotlight`) — */
+.vis-slots{display:flex;align-items:center;justify-content:center;gap:6px;padding:0 10px}
+.vis-slots .fish{flex:none;width:44%;max-width:170px;height:auto;animation:bob 4s ease-in-out infinite}
+.vis-slots .row{display:grid;grid-template-columns:repeat(3,minmax(0,50px));gap:2px 6px}
+.vis-slots figure{margin:0;display:flex;flex-direction:column;align-items:center;animation:spot 4.05s ease-in-out infinite;animation-delay:calc(var(--i) * .45s)}
+.vis-slots figure img{width:42px;height:42px;object-fit:contain}
+.vis-slots figcaption{font-size:10.5px;color:var(--ink3);white-space:nowrap}
+
+/* — ขั้น 1 · 4 · 7 · 10 · 13 วนไป (2.6 วิ ต่อขั้น เท่า `TierDemo`) — */
+.vis-tiers{height:236px}
+.vis-tiers .pics{position:absolute;inset:4px 0 56px 0}
+.vis-tiers .pics img{position:absolute;left:50%;top:50%;height:100%;width:auto;transform:translate(-50%,-50%);opacity:0;animation:tierShow 13s linear infinite;animation-delay:calc(var(--i) * 2.6s)}
+.vis-tiers .pics img:first-child{opacity:1}
+.js .vis-tiers .pics img:first-child{opacity:0}
+.vis-tiers .tag{position:absolute;left:0;right:0;bottom:34px;height:22px;text-align:center}
+.vis-tiers .tag span{position:absolute;left:0;right:0;font-size:15px;color:var(--amber);text-shadow:0 0 10px rgba(242,177,92,.5);opacity:0;animation:tierShow 13s linear infinite;animation-delay:calc(var(--i) * 2.6s)}
+.vis-tiers .tag span:first-child{opacity:1}
+.js .vis-tiers .tag span:first-child{opacity:0}
+.vis-tiers .pips{position:absolute;left:12%;right:12%;bottom:16px;height:6px;border-radius:4px;background:rgba(242,177,92,.15);overflow:hidden}
+.vis-tiers .pips i{position:absolute;left:0;top:0;bottom:0;width:7.7%;border-radius:4px;background:linear-gradient(90deg,var(--amber),#FFE3B0);box-shadow:0 0 10px var(--amber);animation:tierFill 13s steps(1,end) infinite}
+
+/* — โอกาสรายขั้น (ตัวอย่างแถบ · สีเดียวกับหน้าก่อนผสม) — */
+.vis-odds{display:flex;flex-direction:column;justify-content:center;gap:12px;padding:0 22px}
+.vis-odds .r{display:grid;grid-template-columns:62px 1fr;align-items:center;gap:10px;font-size:13px;color:var(--ink2)}
+.vis-odds .seg{display:flex;height:14px;border-radius:7px;overflow:hidden;background:rgba(255,255,255,.05)}
+.vis-odds .seg i{height:100%;width:var(--w);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.js .card:not(.in) .vis-odds .seg i{width:0}
+.vis-odds .seg i:nth-child(1){background:#FF7A8A}
+.vis-odds .seg i:nth-child(2){background:#6F8790}
+.vis-odds .seg i:nth-child(3){background:#53B8FF}
+.vis-odds .seg i:nth-child(4){background:var(--amber);box-shadow:0 0 10px var(--amber)}
+.vis-odds .key{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--ink3)}
+.vis-odds .key span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;background:var(--k);vertical-align:-1px}
+
+/* ══ ภาพจากเกม — โมเสก: ตู้แต่งเต็มใบใหญ่ + สี่ใบเล็ก · คำบรรยายบนแถบไล่มืด · แสงวาบผ่านตอนโผล่ ══ */
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(0,auto);gap:14px}
+.g{position:relative;margin:0;border-radius:20px;overflow:hidden;border:1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  box-shadow:0 0 30px color-mix(in srgb, var(--c) 16%, transparent), 0 18px 50px rgba(0,0,0,.5);aspect-ratio:16/9}
+.g0{grid-column:span 2;grid-row:span 2}
+.g img{width:100%;height:100%;object-fit:cover;transition:transform 7s ease}
+.g:hover img{transform:scale(1.07)}
+.g figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 14px 10px;font-size:14px;line-height:1.35;color:#EFFFFF;
+  background:linear-gradient(180deg,transparent,rgba(2,9,15,.85));text-shadow:0 0 8px color-mix(in srgb, var(--c) 70%, transparent)}
+.g0 figcaption{font-size:16px;padding:40px 18px 14px}
+.g::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(200,255,250,.22) 48%,transparent 60%);transform:translateX(-120%)}
+.rv-on .g.in::after{animation:sweep 1.8s ease-out calc(.3s + var(--i,0) * .12s) 1 both}
+
+/* ══ ภาพจากเกม (สลับซ้ายขวา) ══ */
+.feat{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:44px;align-items:center;margin:64px 0 0}
+.feat.flip .shot{order:2}
+.shot{position:relative;margin:0;border-radius:22px;overflow:hidden;border:1px solid color-mix(in srgb, var(--c) 55%, transparent);
+  box-shadow:0 0 0 1px rgba(255,255,255,.03) inset, 0 0 46px color-mix(in srgb, var(--c) 22%, transparent), 0 26px 70px rgba(0,0,0,.55)}
+.shot img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;transition:transform 8s ease}
+.shot:hover img{transform:scale(1.05)}
+.shot::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(200,255,250,.2) 48%,transparent 60%);transform:translateX(-120%)}
+.rv-on .feat.in .shot::after{animation:sweep 1.6s ease-out .3s 1 both}
+.feat .kick{margin:0 0 8px;font:700 12px/1.4 var(--head);letter-spacing:.26em;text-transform:uppercase;color:var(--c);text-shadow:0 0 10px var(--c)}
+.feat h3{margin:0;font-size:clamp(25px,3.4vw,34px);line-height:1.3;color:#EFFFFF;text-shadow:0 0 6px color-mix(in srgb, var(--c) 80%, transparent), 0 0 24px color-mix(in srgb, var(--c) 40%, transparent)}
+section[lang="en"] .feat h3{font-family:var(--head)}
+.feat p{margin:14px 0 0}
+.feat ul{margin:16px 0 0;padding:0}
+.feat li{position:relative;margin:9px 0;padding-left:26px}
+.feat li::before{content:"";position:absolute;left:4px;top:.68em;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--c);box-shadow:0 0 8px var(--c)}
+
+/* ══ ตัวเลข ══ */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;list-style:none;margin:0;padding:0}
+.stats li{margin:0;padding:24px 16px 20px;text-align:center;border-radius:20px;background:var(--panel);border:1px solid var(--rim);box-shadow:var(--glow)}
+.stats b{display:block;font:700 clamp(30px,4.4vw,42px)/1.1 var(--head);color:#E9FDFF;text-shadow:var(--neon)}
+.stats span{display:block;margin-top:10px;font-size:15px;line-height:1.5;color:var(--ink2)}
+
+/* ══ ประตูเอกสาร ══ */
+.doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.door{display:flex;flex-direction:column;align-items:center;gap:10px;padding:24px 16px 20px;border:1px solid var(--rim2);border-radius:22px;
+  text-decoration:none;text-align:center;background:linear-gradient(180deg,rgba(63,224,207,.07),rgba(4,20,29,.55));
+  box-shadow:0 0 14px rgba(63,224,207,.16), inset 0 0 18px rgba(63,224,207,.07);transition:transform .25s, border-color .2s, box-shadow .25s}
+.door:hover{transform:translateY(-3px);border-color:var(--bio);box-shadow:0 0 26px rgba(63,224,207,.38), inset 0 0 20px rgba(63,224,207,.14)}
+.door svg{width:38px;height:38px;fill:none;stroke:var(--bio);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(63,224,207,.75))}
+.door b{display:block;color:#DFFFFB;font-size:18px;font-weight:600;line-height:1.4}
+.door small{display:block;color:var(--ink3);font:400 13.5px/1.4 var(--head);letter-spacing:.02em}
+.door:hover small{color:var(--ink2)}
+.contact{text-align:center;margin:22px 0 0;font-size:15px}
+
+/* ══ ขึ้นมาจากความลึก — เลื่อนขึ้น หายเบลอ ค่อย ๆ ชัด (มี JS เท่านั้น) ══ */
+.rv-on .rv{opacity:0;transform:translateY(28px);filter:blur(6px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1), filter .9s ease;transition-delay:calc(var(--i,0) * 110ms)}
+.rv-on .rv.in{opacity:1;transform:none;filter:none}
+
+/* ══ คีย์เฟรม ══ */
+@keyframes sweep{0%{transform:translateX(-120%)}40%,100%{transform:translateX(120%)}}
+@keyframes breathe{0%,100%{box-shadow:0 0 18px rgba(63,224,207,.32), inset 0 0 14px rgba(63,224,207,.14)}50%{box-shadow:0 0 30px rgba(63,224,207,.55), inset 0 0 20px rgba(63,224,207,.24)}}
+@keyframes rise{0%{transform:translate(0,0);opacity:0}10%{opacity:1}50%{transform:translate(var(--sx,10px),-50vh)}90%{opacity:.8}100%{transform:translate(0,-100vh);opacity:0}}
+@keyframes dive{0%{opacity:0;transform:scale(1.07);filter:blur(10px) brightness(.4)}100%{opacity:1;transform:none;filter:none}}
+@keyframes surface{0%{opacity:0;transform:translateY(18px);filter:blur(4px)}100%{opacity:1;transform:none;filter:none}}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.vis-catch .arc{animation-name:spin2}
+@keyframes spin2{to{transform:rotate(360deg)}}
+@keyframes rot{to{--rot:360deg}}
+@keyframes halo{0%,100%{transform:scale(.92);opacity:.75}50%{transform:scale(1.06);opacity:1}}
+@keyframes pop1{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.12)}100%{transform:none;opacity:1}}
+@keyframes nudge{0%,100%{translate:0 0}50%{translate:0 4px}}
+@keyframes panelIn{0%{opacity:0;transform:translateY(18px) scale(.98);filter:blur(4px)}100%{opacity:1;transform:none;filter:none}}
+@keyframes wobble{0%,55%,100%{transform:translate(-50%,-52%) rotate(0)}62%{transform:translate(-50%,-52%) rotate(-7deg)}70%{transform:translate(-50%,-52%) rotate(6deg)}78%{transform:translate(-50%,-52%) rotate(-4deg)}86%{transform:translate(-50%,-52%) rotate(2deg)}}
+@keyframes tapRing{0%,55%{transform:scale(.7);opacity:0}62%{opacity:.9}100%{transform:scale(1.5);opacity:0}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes chev{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes spot{0%,8%,30%,100%{transform:scale(1);filter:brightness(.75)}14%{transform:scale(1.18);filter:brightness(1.35) drop-shadow(0 0 8px rgba(255,255,255,.6))}}
+@keyframes needle{0%{left:3%;opacity:1}42%{left:50%}74%{left:50%;opacity:1}82%{left:50%;opacity:0}83%{left:3%;opacity:0}100%{left:3%;opacity:1}}
+@keyframes pulse{0%,40%{transform:scale(.4);opacity:0}43%{opacity:1}70%{transform:scale(1.9);opacity:0}100%{opacity:0}}
+@keyframes pop{0%,40%{opacity:0;transform:scale(.6)}46%{opacity:1;transform:scale(1.18)}54%{transform:scale(1)}74%{opacity:1}84%,100%{opacity:0}}
+@keyframes school{0%{transform:scale(2.3) rotate(0);opacity:0}12%{opacity:1}55%{transform:scale(1) rotate(150deg);opacity:1}70%{transform:scale(1.15) rotate(180deg);opacity:0}100%{transform:scale(2.3) rotate(180deg);opacity:0}}
+@keyframes flash{0%,53%{opacity:0;transform:scale(.6)}58%{opacity:1;transform:scale(1)}80%,100%{opacity:0;transform:scale(1.4)}}
+@keyframes popP{0%,53%{opacity:0;transform:scale(.6)}59%{opacity:1;transform:scale(1.15)}66%{transform:scale(1)}82%{opacity:1}92%,100%{opacity:0}}
+@keyframes fillB{0%{width:0}10%{width:0}14%{width:30%}30%{width:30%}34%{width:62%}50%{width:62%}55%{width:100%}88%{width:100%}96%,100%{width:0}}
+@keyframes signB{0%,55%{opacity:0}57%{opacity:.9}59%{opacity:.2}61%{opacity:1}63%{opacity:.4}66%,86%{opacity:1}94%,100%{opacity:0}}
+@keyframes trap{0%,100%{transform:scale(1.25);opacity:.6}45%{transform:scale(.92);opacity:1}55%{transform:scale(1);opacity:1}}
+@keyframes drop{0%{transform:translateY(-26px);opacity:0}18%{transform:translateY(0);opacity:1}24%{transform:translateY(-6px)}30%,80%{transform:translateY(0);opacity:1}100%{opacity:0;transform:translateY(0)}}
+@keyframes show3{0%{opacity:0}3%{opacity:1}33%{opacity:1}36%,100%{opacity:0}}
+@keyframes show2{0%{opacity:0}4%{opacity:1}50%{opacity:1}54%,100%{opacity:0}}
+@keyframes drift{0%{transform:scale(1.06) translate(0,0)}50%{transform:scale(1.0) translate(-1%,0)}100%{transform:scale(1.06) translate(0,0)}}
+@keyframes tierShow{0%{opacity:0}2%{opacity:1}18%{opacity:1}20%,100%{opacity:0}}
+@keyframes tierFill{0%{width:7.7%}20%{width:30.8%}40%{width:53.8%}60%{width:76.9%}80%{width:100%}}
+
+/* ══ จอแคบ ══ */
+@media (max-width:980px){
+  .panel{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card.wide{grid-column:1 / -1}
+}
+@media (max-width:900px){
+  .gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g0{grid-column:1 / -1;grid-row:auto}
+  .feat,.feat.flip{grid-template-columns:1fr;gap:22px;margin-top:52px}
+  .feat.flip .shot{order:0}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .sec{margin-top:66px}
+  .orbit{height:360px}
+  .orbit .track{left:12%;right:12%;top:15%;bottom:24%}
+  .node .ic{width:76px;height:76px}
+  .node .ic img{width:66px;height:66px}
+  .node b{font-size:17px}
+  .ocore{width:96px;height:96px;top:50%}
+  .ocore .bead{transform:rotate(var(--a)) translateY(-54px) scale(calc(1 + .7 * var(--kb,0)))}
+  .ocore .orb{inset:7px}.ocore .glow{inset:12px}.ocore .mkw{inset:11px}.ocore .halo{inset:-24px}.ocore .ring.r1{inset:-8px}
+  .ocore .sheen{inset:13px 32px auto 20px;height:20px}
+  .g-ic{width:62px;height:62px}.g-ic img{width:48px;height:48px}
+  .panel{grid-template-columns:1fr}
+  .vis-wheel{flex-direction:column;height:auto;padding:18px 0 20px;gap:12px}
+  .wheel-note{text-align:center;padding:0 16px}
+  .doors{grid-template-columns:1fr;gap:12px}
+  .door{flex-direction:row;justify-content:flex-start;text-align:left;gap:16px;padding:16px 18px}
+  .door svg{width:32px;height:32px;flex:none}
+  .door span{flex:1}
+  .door::after{content:"›";color:var(--bio);font-size:22px;line-height:1}
+}
+@media (max-width:460px){
+  .ocore{width:84px;height:84px}
+  .ocore .bead{transform:rotate(var(--a)) translateY(-48px) scale(calc(1 + .7 * var(--kb,0)))}
+  .ocore .mkw{inset:10px}
+  .stats{grid-template-columns:1fr 1fr;gap:10px}.stats li{padding:18px 10px 16px}
+  .play,.ghost{width:100%;justify-content:center}
+  .orbit{height:330px}
+  .node .ic{width:64px;height:64px}.node .ic img{width:56px;height:56px}
+  .wheel{width:230px;height:230px}.wheel .el{width:58px;height:58px;margin:-29px;transform:rotate(var(--a)) translateY(-90px) rotate(calc(-1 * var(--a)))}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .rv-on .rv{opacity:1;transform:none;filter:none}
+  .vis-tiers .pics img:first-child,.vis-tiers .tag span:first-child,.vis-show img:first-child,.vis-show .tags span:first-child{opacity:1 !important}
+  .vis-rhythm .needle{left:50%}.vis-rhythm .word,.vis-break .sign,.vis-parry .word{opacity:1}
+  .vis-break .fill{width:100%}
+  .vis-odds .seg i{width:var(--w)}
+  .orbit .dot{display:none}
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   รอบสาม (11 ต.ค. 69 "ปรับแต่ละ section ให้สวยกว่านี้ จัด layout ให้เข้าธีมเกม") — ธีม "ดำดิ่งลงเหว"
+   ยิ่งเลื่อนลง น้ำยิ่งมืด (พื้นหน้าไล่ลึก) · มาตรวัดความลึกขวาจอ · ปลาจริงว่ายผ่านหัวหน้า ·
+   เลขช่วงจาง ๆ หลังหัวข้อ · สี่ช่วงของระบบเป็นเส้นทางแนวตั้งเส้นเดียว · ตัวเลขมีไอคอนเกม · แถบปิดท้ายชวนเล่น
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* พื้นทั้งหน้าไล่จากผิวน้ำลงก้นเหว (เลื่อนไปกับหน้า) — `.sea` เหลือแต่แสงกับฟอง ไม่ทับพื้น */
+body.home-page{background:linear-gradient(180deg,#06202e 0%,#04141f 18%,#030d16 45%,#02080e 72%,#010408 100%)}
+body.home-page .sea{background:
+    radial-gradient(1100px 520px at 50% -140px, rgba(63,224,207,.18), transparent 70%),
+    radial-gradient(900px 640px at 92% 112%, rgba(182,156,255,.10), transparent 70%)}
+
+/* ── เลขช่วงจาง ๆ หลังหัวข้อ (หลอดนีออนที่ยังไม่ติดไฟ) ── */
+.sec-head[data-n]{position:relative;isolation:isolate}
+.sec-head[data-n]::before{content:attr(data-n);position:absolute;z-index:-1;left:50%;top:-34px;transform:translateX(-50%);
+  font:700 clamp(96px,14vw,150px)/1 var(--head);color:transparent;-webkit-text-stroke:1.5px rgba(63,224,207,.16);letter-spacing:.02em;pointer-events:none}
+.rv-on .sec-head.rv.in[data-n]::before{animation:numOn 2.2s ease-out .4s both}
+@keyframes numOn{0%{-webkit-text-stroke-color:rgba(63,224,207,0)}30%{-webkit-text-stroke-color:rgba(63,224,207,.35)}38%{-webkit-text-stroke-color:rgba(63,224,207,.06)}50%,100%{-webkit-text-stroke-color:rgba(63,224,207,.16)}}
+
+/* ── สี่ช่วงของระบบเป็นเส้นทางเดียว — ไอคอนช่วงเกาะเส้นแสงแนวตั้งที่ไล่สีสี่ช่วง ──
+   เหมือนการดำลงทีละชั้น แล้วเส้นวนกลับขึ้นไปช่วงแรก (ป้าย "ถัดไป" ของช่วงสุดท้าย) */
+.groups{position:relative;padding-left:118px}
+.groups::before{content:"";position:absolute;left:40px;top:40px;bottom:70px;width:3px;border-radius:3px;
+  background:linear-gradient(180deg,#3FE0CF 0%,#3FE0CF 22%,#FF7A8A 30%,#FF7A8A 52%,#F2B15C 60%,#F2B15C 74%,#B48CFF 82%,#B48CFF 100%);
+  box-shadow:0 0 12px rgba(63,224,207,.35);opacity:.75}
+.groups::after{content:"";position:absolute;left:35px;top:40px;width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff,0 0 26px var(--bio);
+  animation:diveDot 14s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes diveDot{0%{top:40px;opacity:0}6%{opacity:1}94%{opacity:1}100%{top:calc(100% - 80px);opacity:0}}
+.groups .group{position:relative}
+.groups .g-head{border-bottom:0;padding-bottom:6px}
+.groups .g-head::after{display:none}
+.groups .g-ic{position:absolute;left:-118px;top:-6px;width:84px;height:84px;background:radial-gradient(circle, color-mix(in srgb, var(--c) 26%, #031019), #031019 70%)}
+.groups .g-head .kick{margin-top:6px}
+/* แสงสีของช่วงฟุ้งหลังการ์ด — แต่ละช่วงมีบรรยากาศของตัวเอง */
+.groups .group::before{content:"";position:absolute;z-index:-1;left:10%;right:10%;top:90px;height:60%;border-radius:50%;
+  background:radial-gradient(closest-side, color-mix(in srgb, var(--c) 10%, transparent), transparent);filter:blur(20px);pointer-events:none}
+
+/* ── ตัวเลข: ไอคอนเกมลอยเหนือเลข · ขอบสีตามความหมาย ── */
+.stats li{position:relative;border-color:color-mix(in srgb, var(--c) 38%, transparent);overflow:hidden}
+.stats li img{display:block;width:54px;height:54px;object-fit:contain;margin:0 auto 6px;animation:bob 4s ease-in-out infinite;animation-delay:calc(var(--i) * .4s)}
+.stats li::after{content:"";position:absolute;left:20%;right:20%;bottom:-1px;height:2px;background:var(--c);box-shadow:0 0 10px var(--c);opacity:.8}
+
+/* ── แถบปิดท้าย: ตู้แต่งเต็มเต็มกรอบ (สีสด ไม่หรี่ทั้งภาพ) ไล่มืดเฉพาะซ้ายที่วางตัวหนังสือ ── */
+.finale{position:relative;margin:90px 0 0;border-radius:28px;overflow:hidden;border:1px solid var(--rim2);min-height:420px;display:flex;align-items:center;
+  box-shadow:0 0 0 1px rgba(63,224,207,.08) inset,0 0 60px rgba(63,224,207,.18),0 30px 80px rgba(0,0,0,.55)}
+/* ลำดับชั้น: ภาพ 0 → ไล่มืด 1 → ตัวหนังสือ 2 (รอบแรกภาพทับชั้นไล่มืด ตัวหนังสืออยู่บนปลาสีสดอ่านไม่ออก) */
+.finale .fin-bg{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;animation:drift 18s ease-in-out infinite}
+.finale::before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(90deg,rgba(2,9,15,.94) 0%,rgba(2,9,15,.84) 36%,rgba(2,9,15,.25) 62%,transparent 80%)}
+.finale::after{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(200,255,250,.16) 48%,transparent 60%);transform:translateX(-120%);animation:sweep 9s ease-in-out 1s infinite}
+.finale .fin-in{position:relative;z-index:2;max-width:640px;padding:44px 48px}
+.finale h2{text-wrap:balance}
+.finale h2{margin:0;font-size:clamp(28px,4vw,42px);line-height:1.25;color:#EFFFFF;text-shadow:var(--neon)}
+section[lang="en"] .finale h2{font-family:var(--head)}
+.finale p{color:var(--ink)}
+.finale .cta{justify-content:flex-start}
+
+/* ── มาตรวัดความลึก — ขวาจอ ยิ่งเลื่อนลงยิ่งลึก (home.js) · จอกว้างเท่านั้น ── */
+.depth{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:15;display:none;flex-direction:column;align-items:center;gap:6px;pointer-events:none;
+  font:700 11px/1.2 var(--head);color:var(--ink3);letter-spacing:.12em;text-transform:uppercase}
+.depth .dbar{position:relative;width:2px;height:180px;border-radius:2px;background:linear-gradient(180deg,rgba(63,224,207,.5),rgba(180,140,255,.3),rgba(255,255,255,.06))}
+.depth .dbar i{position:absolute;left:50%;top:var(--p,0%);width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:#fff;box-shadow:0 0 10px #fff,0 0 18px var(--bio)}
+.depth b{font:700 16px/1 var(--head);color:#DFFFFB;letter-spacing:.02em;text-shadow:0 0 8px rgba(63,224,207,.6)}
+html[lang="th"] .depth{letter-spacing:0}
+@media (min-width:1280px){.js .depth{display:flex}}
+
+@media (max-width:760px){
+  .groups{padding-left:0}
+  .groups::before,.groups::after{display:none}
+  .groups .g-ic{position:static;width:62px;height:62px}
+  .groups .g-head{border-bottom:1px solid color-mix(in srgb, var(--c) 28%, transparent);padding-bottom:12px}
+  .finale{min-height:0;flex-direction:column;align-items:stretch}
+  .finale .fin-bg{position:relative;height:220px}
+  .finale::before{background:linear-gradient(180deg,transparent 0,transparent 160px,rgba(2,9,15,.95) 230px)}
+  .finale .fin-in{padding:6px 22px 26px}
+}
+@media (prefers-reduced-motion: reduce){.groups::after{display:none}}

@@ -18,7 +18,8 @@
   }
   function stored() { try { return localStorage.getItem("lang"); } catch (e) { return null; } }
 
-  // ── แผ่นสารบัญจากล่าง (มือถือ/แท็บเล็ต) ──
+  // ── แผ่นสารบัญจากล่าง (มือถือ/แท็บเล็ต) — เฉพาะหน้าที่มีสารบัญ (หน้าแรกไม่มี · 11 ต.ค. 69 เดิมปุ่มลอยว่างโผล่บนหน้าแรก) ──
+  var hasToc = !!document.querySelector("nav.toc");
   var fab = document.createElement("button");
   fab.className = "fab"; fab.type = "button"; fab.setAttribute("aria-haspopup", "dialog");
   fab.innerHTML = '<i aria-hidden="true"></i><span></span>';
@@ -26,7 +27,7 @@
   var sheet = document.createElement("div");
   sheet.className = "sheet"; sheet.setAttribute("role", "dialog"); sheet.setAttribute("aria-modal", "true");
   sheet.innerHTML = '<div class="grip" aria-hidden="true"></div><div class="sheet-title"><span></span><a href="#doc"></a></div><ol></ol>';
-  document.body.appendChild(fab); document.body.appendChild(scrim); document.body.appendChild(sheet);
+  if (hasToc) { document.body.appendChild(fab); document.body.appendChild(scrim); document.body.appendChild(sheet); }
 
   var words = { th: { toc: "สารบัญ", top: "กลับขึ้นบน ↑" }, en: { toc: "Contents", top: "Back to top ↑" } };
   function fillSheet(l) {
