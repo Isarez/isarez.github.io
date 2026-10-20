@@ -1,0 +1,88 @@
+/* คลังท่าทั้งหมด — หน้าตาของ skills-ui.js (ใช้ทั้งหน้าเว็บผู้เล่นและ wiki · ใช้ตัวแปรสีชุดเดียวกับ site.css / wiki.css)
+   การ์ดท่าแบบแผงในเกม: ตราสายเรือง · สามระดับ ฟ้า/ม่วง/ทอง เป็นแถบสีซ้าย · ไล่เข้าทีละใบตอนกรอง (ปิดเมื่อลดการเคลื่อนไหว) */
+.sk-app{--blue-rank:#5FB8FF;--purple-rank:#B88CFF;--gold-rank:#F5C451;margin:8px 0 24px}
+.sk-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;padding:6px;border-radius:999px;border:1px solid var(--line);background:rgba(3,14,21,.6);width:max-content;max-width:100%}
+.sk-tab{font:600 15px/1.2 var(--body);color:var(--ink2);background:none;border:1px solid transparent;border-radius:999px;padding:9px 18px;min-height:42px;cursor:pointer;transition:color .2s,border-color .2s,box-shadow .2s,text-shadow .2s}
+.sk-tab:hover{color:var(--ink)}
+.sk-tab.on{color:var(--bio);border-color:var(--rim2,rgba(63,224,207,.55));box-shadow:0 0 14px rgba(63,224,207,.25), inset 0 0 12px rgba(63,224,207,.10);text-shadow:0 0 8px rgba(63,224,207,.6)}
+.sk-note{color:var(--ink2);font-size:15px;margin:0 0 12px}
+.sk-filters{display:flex;flex-direction:column;gap:10px;margin:0 0 14px}
+.sk-q{width:100%;max-width:520px;font:16px/1.4 var(--body);color:var(--ink);background:rgba(2,12,18,.7);border:1px solid var(--rim,rgba(63,224,207,.3));border-radius:14px;padding:11px 16px;outline:none;transition:border-color .2s, box-shadow .2s}
+.sk-q:focus{border-color:var(--bio);box-shadow:0 0 0 3px rgba(63,224,207,.15), 0 0 18px rgba(63,224,207,.2)}
+.sk-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sk-lab{font-size:13px;color:var(--ink3);margin-right:4px}
+.sk-f{display:inline-flex;align-items:center;gap:6px;font:500 14px/1.2 var(--body);color:var(--ink2);background:rgba(4,20,29,.6);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;min-height:36px;cursor:pointer;transition:all .2s}
+.sk-f img{width:24px;height:24px;object-fit:contain}
+.sk-f:hover{color:var(--ink);border-color:var(--rim,rgba(63,224,207,.3))}
+.sk-f.on{color:#fff;border-color:var(--bio);background:rgba(63,224,207,.12);box-shadow:0 0 12px rgba(63,224,207,.25)}
+.sk-f:not(:has(img)){padding-left:12px}
+.sk-tog{font-size:14px;color:var(--ink2);display:flex;gap:8px;align-items:center}
+.sk-count{font-size:13px;color:var(--ink3)}
+.sk-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
+.sk-grid.ult{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.sk-card{position:relative;padding:14px 14px 12px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(8,30,42,.86),rgba(4,18,27,.80));
+  box-shadow:0 0 0 1px rgba(63,224,207,.03) inset;transition:transform .25s, border-color .25s, box-shadow .25s}
+.sk-card:hover{transform:translateY(-2px);border-color:var(--rim,rgba(63,224,207,.3));box-shadow:0 0 24px rgba(63,224,207,.12)}
+.sk-grid.in .sk-card{animation:skIn .45s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 28ms)}
+@keyframes skIn{from{opacity:0;transform:translateY(14px) scale(.98);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
+@media (prefers-reduced-motion: reduce){.sk-grid.in .sk-card{animation:none}.sk-card:hover{transform:none}}
+.sk-head{display:flex;gap:12px;align-items:center;margin:0 0 8px}
+.sk-sc{width:44px;height:44px;object-fit:contain;flex:none;filter:drop-shadow(0 0 6px rgba(63,224,207,.3))}
+.sk-ht{display:flex;flex-direction:column;min-width:0}
+.sk-kick{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink3)}
+.sk-slot{width:20px;height:20px}
+.sk-new{font-style:normal;color:var(--pink,#F59BD8)}
+.sk-ult{font:700 16.5px/1.3 var(--head);color:#f2fffd}
+.sk-th{font-size:13.5px;color:var(--ink2)}
+.sk-rank{border-left:3px solid var(--c);padding:6px 0 6px 10px;margin:6px 0;border-radius:2px;background:linear-gradient(90deg,color-mix(in srgb,var(--c) 10%,transparent),transparent 60%)}
+.r-blue{--c:var(--blue-rank)} .r-purple{--c:var(--purple-rank)} .r-gold{--c:var(--gold-rank)}
+th.r-blue,th.r-purple,th.r-gold{color:var(--c)}
+.sk-rk{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.sk-rk b{font:700 15.5px/1.3 var(--head);color:#fff;text-shadow:0 0 10px color-mix(in srgb,var(--c) 45%,transparent)}
+.sk-pill{font:700 11px/1.6 var(--body);padding:0 8px;border-radius:999px;color:var(--c);border:1px solid var(--c)}
+.sk-desc{margin:3px 0 4px;font-size:14px;line-height:1.55;color:var(--ink2)}
+.sk-meta{display:flex;flex-wrap:wrap;gap:5px}
+.sk-chip{font-size:12px;line-height:1.5;padding:0 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink3)}
+.sk-chip.in{border-style:dashed;color:var(--amber,#F2B15C)}
+.sk-from{margin:8px 0 0;font-size:12.5px;color:var(--ink3);display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.sk-from em{font-style:normal;padding:0 7px;border-radius:999px;background:rgba(63,224,207,.07);color:var(--ink2)}
+.sk-from em.home{color:var(--bio);box-shadow:inset 0 0 0 1px rgba(63,224,207,.4)}
+.sk-card.mini{padding:12px 14px}
+.sk-hint{margin:2px 0 0;font-size:12.5px;color:var(--bio)}
+.sk-h{font:700 18px/1.4 var(--body);margin:22px 0 10px;color:#e9fbff}
+.sk-none{color:var(--ink3)}
+.sk-tbl{overflow-x:auto;border-radius:14px;border:1px solid var(--line);background:rgba(2,12,18,.45);margin:8px 0 14px}
+.sk-tbl table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.5}
+.sk-tbl th,.sk-tbl td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+.sk-tbl th{color:var(--bio);background:rgba(63,224,207,.06);white-space:nowrap}
+.sk-tbl tr:last-child td{border-bottom:0}
+.sk-ico{width:26px;height:26px;display:inline-block;vertical-align:middle;margin-right:8px}
+.sk-gen{font-size:12px;color:var(--ink3);margin:18px 0 0}
+/* วงธาตุ — หกตราบนวง หมุนช้า ๆ ตัวตราตั้งตรงเสมอ */
+.sk-wheel{--r:140px;position:relative;width:min(360px,88vw);aspect-ratio:1;margin:4px auto 18px;animation:skSpin 60s linear infinite}
+@keyframes skSpin{to{transform:rotate(360deg)}}
+.sk-wheel .sk-elc,.sk-wheel .sk-wheel-mid{animation:skSpin 60s linear infinite reverse}
+@media (prefers-reduced-motion: reduce){.sk-wheel,.sk-wheel .sk-elc,.sk-wheel .sk-wheel-mid{animation:none}}
+.sk-wheel::before{content:"";position:absolute;inset:14%;border-radius:50%;border:1px dashed rgba(63,224,207,.35);box-shadow:0 0 30px rgba(63,224,207,.08) inset}
+.sk-elc{position:absolute;left:50%;top:50%;width:84px;margin:-42px;display:flex;flex-direction:column;align-items:center;gap:2px;translate:calc(sin(var(--a)) * var(--r)) calc(cos(var(--a)) * var(--r) * -1)}
+.sk-elc img{width:62px;height:62px;filter:drop-shadow(0 0 8px rgba(255,255,255,.18))}
+.sk-elc b{font-size:13.5px;color:var(--ink)}
+.sk-wheel-mid{position:absolute;inset:34%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle,rgba(63,224,207,.10),transparent 70%)}
+.sk-wheel-mid b{font:700 20px/1.1 var(--head);color:var(--bio)} .sk-wheel-mid span{font-size:12px;color:var(--ink3);margin-bottom:4px}
+@media (max-width:560px){
+  .sk-grid,.sk-grid.ult{grid-template-columns:1fr}
+  .sk-tabs{border-radius:18px}
+  .sk-tab{padding:8px 12px;font-size:14px}
+  .sk-wheel{--r:min(112px,30vw)}
+  .sk-elc{width:70px;margin:-35px}
+  .sk-elc img{width:48px;height:48px}
+}
+/* site.css แปลงตารางเป็นแถวซ้อนบนจอแคบ (ตารางของหน้านโยบาย) — ตารางคลังท่าต้องคงรูปตารางแล้วเลื่อนแนวนอนแทน ไม่งั้นหัวคอลัมน์หาย */
+.sk-tbl table{display:table}
+.sk-tbl.wide table{min-width:560px}
+.sk-tbl thead{display:table-header-group}
+.sk-tbl tbody{display:table-row-group}
+.sk-tbl tr{display:table-row;margin:0;border:0;border-radius:0;background:none;padding:0}
+.sk-tbl td,.sk-tbl th{display:table-cell;width:auto;padding:8px 12px;border-bottom:1px solid var(--line)}
+.sk-tbl tr:last-child td{border-bottom:0}
+.sk-tbl{-webkit-overflow-scrolling:touch}

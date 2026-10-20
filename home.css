@@ -491,3 +491,6 @@ html[lang="th"] .depth{letter-spacing:0}
   .finale .fin-in{padding:6px 22px 26px}
 }
 @media (prefers-reduced-motion: reduce){.groups::after{display:none}}
+/* ประตูคู่มือ/ท่าทั้งหมด (18 ต.ค. 69) — สองบานเหนือประตูเอกสาร */
+.doors.two{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 0 16px}
+@media (max-width:760px){.doors.two{grid-template-columns:1fr}}
